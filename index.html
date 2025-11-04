@@ -420,6 +420,98 @@
             transform: scale(1.1);
         }
 
+        /* PDF Modal Styles */
+        .pdf-modal-content {
+            width: 95vw;
+            height: 95vh;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .pdf-toolbar {
+            background: #f5f5f5;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .pdf-info {
+            font-weight: bold;
+            color: #333;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .pdf-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pdf-search {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .pdf-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .pdf-btn:hover {
+            background: #f0f0f0;
+            border-color: #bbb;
+        }
+
+        .pdf-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        #pdfSearchInput {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 200px;
+            font-size: 14px;
+        }
+
+        #pdfPageInfo, #pdfZoomLevel {
+            font-size: 14px;
+            color: #666;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .pdf-viewer {
+            flex: 1;
+            overflow: auto;
+            background: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        #pdfCanvas {
+            max-width: 100%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            background: white;
+        }
+
         /* Crypto Wallet Section Styles */
         .crypto-wallet-section {
             margin-top: 40px;
@@ -783,6 +875,7 @@
             width: 100%;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -849,7 +942,7 @@
                     <p class="copyright">&copy; <span id="currentYear">2025</span> <span id="footerDomain">88888888.life</span> All rights reserved.</p>
                     <p class="footer-powered">Created by <a href="https://alexgoretoy.com" target="_blank" class="footer-link">Alex Goretoy</a> a.k.a. <a href="https://troo.pro" target="_blank" class="footer-link">Troo</a></p>
                     <p class="footer-business">Let's do business? <a href="https://stunning.domains" target="_blank" class="footer-link">Stunning.Domains</a></p>
-                    <div class="footer-next">Girl next door, you have my heart. Hit me up when we can start, nothing weird, and no living in fear.<br />I only realized in a nick of time. I'll be waiting, so please be mine, we'll be alright.<br /><a href="https://5201314.com">5201314</a> In chinese this means, I love you forever!</div>
+                    <div class="footer-next">LOVE POEM: Girl next door, you have my heart.  Hit me up when we can start, nothing weird, no live in fear. It hurts my heart that we're apart, yet full of joy like healthy farts.<br />I only realized, a nick of time and I'll be waiting, so please be mine. We'll be alright, we'll be just fine. So please don't cry, he'll dry our eyes. Yahuah blessed us, a life of fun, many good times, together we can really shine. We found each other, like it's a crime and have to wait just waste our time. Right now, can't even spare a dime but father knows to give me mine. He's really good to me and mine, we have each other to love and hold, his words are real, some red, some bold. The Flat Earth Truth enlightens us with words of wisdom and brings his meaning to our minds and clears up jargon so we survive in those hard times when others die.<br /><a href="https://5201314.com">5201314</a> In chinese this means, I love you forever!</div>
                 </div>
             </footer>
         </div>
@@ -1087,6 +1180,35 @@
             <img class="modal-image" id="modalImage" src="" alt="Meme">
         </div>
         <button class="modal-nav modal-next" id="modalNext">›</button>
+    </div>
+
+    <!-- PDF Modal -->
+    <div class="modal" id="pdfModal">
+        <button class="modal-close" id="pdfModalClose">✕</button>
+        <div class="pdf-modal-content">
+            <div class="pdf-toolbar">
+                <div class="pdf-info">
+                    <span id="pdfTitle">Document Title</span>
+                </div>
+                <div class="pdf-controls">
+                    <button id="pdfPrevPage" class="pdf-btn">‹ Prev</button>
+                    <span id="pdfPageInfo">Page 1 of 1</span>
+                    <button id="pdfNextPage" class="pdf-btn">Next ›</button>
+                    <button id="pdfZoomOut" class="pdf-btn">−</button>
+                    <span id="pdfZoomLevel">100%</span>
+                    <button id="pdfZoomIn" class="pdf-btn">+</button>
+                </div>
+                <div class="pdf-search">
+                    <input type="text" id="pdfSearchInput" placeholder="Search in document...">
+                    <button id="pdfSearchBtn" class="pdf-btn">Search</button>
+                    <button id="pdfSearchPrev" class="pdf-btn">‹</button>
+                    <button id="pdfSearchNext" class="pdf-btn">›</button>
+                </div>
+            </div>
+            <div class="pdf-viewer">
+                <canvas id="pdfCanvas"></canvas>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -3470,7 +3592,6 @@
             definition.classList.toggle('hidden');
         }
 
-        let currentPage = 1;
         const itemsPerPage = 32;
         let filteredData = [...documentariesData];
         let currentMemeIndex = 0;
@@ -3529,15 +3650,15 @@
 
         function renderDocuments() {
             const grid = document.getElementById('documentsGrid');
-            grid.innerHTML = documentsData.map(doc => `
+            grid.innerHTML = documentsData.map((doc, index) => `
                 <div class="card document-card">
                     <div class="document-icon">📄</div>
                     <div class="document-info">
                         <div class="card-title">${doc.title}</div>
                     </div>
                     <div class="url-buttons">
-                        <button class="url-button primary" ${!doc.publicUrl || doc.publicUrl === '' ? 'disabled' : `onclick="window.open('${doc.publicUrl}', '_blank')"` }>🔗 Original</button>
-                        <button class="url-button archive" ${!doc.archiveUrl || doc.archiveUrl === '' ? 'disabled' : `onclick="window.open('${doc.archiveUrl}', '_blank')"` }>📁 Archive</button>
+                        <button class="url-button primary" ${(!doc.archiveUrl && !doc.publicUrl) || (doc.archiveUrl === '' && doc.publicUrl === '') ? 'disabled' : `onclick="openPDFModal(${index})"`}>📖 View PDF</button>
+                        <button class="url-button secondary" ${!doc.publicUrl || doc.publicUrl === '' ? 'disabled' : `onclick="window.open('${doc.publicUrl}', '_blank')"`}>🔗 Original</button>
                     </div>
                 </div>
             `).join('');
@@ -3607,6 +3728,185 @@
             modal.classList.remove('active');
         }
 
+        // PDF Modal Variables
+        let currentPDF = null;
+        let currentPage = 1;
+        let totalPages = 0;
+        let currentScale = 1.0;
+        let pdfSearchResults = [];
+        let currentSearchIndex = -1;
+
+        // PDF Modal Functions
+        function openPDFModal(docIndex) {
+            const doc = documentsData[docIndex];
+            const modal = document.getElementById('pdfModal');
+            const titleElement = document.getElementById('pdfTitle');
+            
+            titleElement.textContent = doc.title;
+            modal.classList.add('active');
+            
+            // Use archive URL if available, otherwise public URL
+            const pdfUrl = doc.archiveUrl || doc.publicUrl;
+            if (pdfUrl) {
+                loadPDF(pdfUrl);
+            } else {
+                alert('PDF file not available');
+                closePDFModal();
+            }
+        }
+
+        function closePDFModal() {
+            const modal = document.getElementById('pdfModal');
+            modal.classList.remove('active');
+            currentPDF = null;
+            currentPage = 1;
+            totalPages = 0;
+            pdfSearchResults = [];
+            currentSearchIndex = -1;
+        }
+
+        async function loadPDF(url) {
+            try {
+                // Set PDF.js worker
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                
+                const loadingTask = pdfjsLib.getDocument(url);
+                currentPDF = await loadingTask.promise;
+                totalPages = currentPDF.numPages;
+                currentPage = 1;
+                
+                updatePageInfo();
+                renderPage(currentPage);
+                
+                // Enable/disable navigation buttons
+                updateNavigationButtons();
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                alert('Error loading PDF document');
+                closePDFModal();
+            }
+        }
+
+        async function renderPage(pageNum) {
+            if (!currentPDF) return;
+            
+            try {
+                const page = await currentPDF.getPage(pageNum);
+                const canvas = document.getElementById('pdfCanvas');
+                const context = canvas.getContext('2d');
+                
+                const viewport = page.getViewport({ scale: currentScale });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                
+                await page.render(renderContext).promise;
+            } catch (error) {
+                console.error('Error rendering page:', error);
+            }
+        }
+
+        function updatePageInfo() {
+            document.getElementById('pdfPageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+        }
+
+        function updateZoomInfo() {
+            document.getElementById('pdfZoomLevel').textContent = `${Math.round(currentScale * 100)}%`;
+        }
+
+        function updateNavigationButtons() {
+            document.getElementById('pdfPrevPage').disabled = currentPage <= 1;
+            document.getElementById('pdfNextPage').disabled = currentPage >= totalPages;
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderPage(currentPage);
+                updatePageInfo();
+                updateNavigationButtons();
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderPage(currentPage);
+                updatePageInfo();
+                updateNavigationButtons();
+            }
+        }
+
+        function zoomIn() {
+            currentScale = Math.min(currentScale * 1.25, 3.0);
+            renderPage(currentPage);
+            updateZoomInfo();
+        }
+
+        function zoomOut() {
+            currentScale = Math.max(currentScale / 1.25, 0.25);
+            renderPage(currentPage);
+            updateZoomInfo();
+        }
+
+        async function searchInPDF() {
+            const searchTerm = document.getElementById('pdfSearchInput').value.trim();
+            if (!searchTerm || !currentPDF) return;
+            
+            pdfSearchResults = [];
+            currentSearchIndex = -1;
+            
+            try {
+                for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
+                    const page = await currentPDF.getPage(pageNum);
+                    const textContent = await page.getTextContent();
+                    const textItems = textContent.items.map(item => item.str).join(' ');
+                    
+                    if (textItems.toLowerCase().includes(searchTerm.toLowerCase())) {
+                        pdfSearchResults.push(pageNum);
+                    }
+                }
+                
+                if (pdfSearchResults.length > 0) {
+                    currentSearchIndex = 0;
+                    currentPage = pdfSearchResults[0];
+                    renderPage(currentPage);
+                    updatePageInfo();
+                    updateNavigationButtons();
+                    alert(`Found ${pdfSearchResults.length} pages with "${searchTerm}"`);
+                } else {
+                    alert(`No results found for "${searchTerm}"`);
+                }
+            } catch (error) {
+                console.error('Error searching PDF:', error);
+                alert('Error searching document');
+            }
+        }
+
+        function prevSearchResult() {
+            if (pdfSearchResults.length > 0 && currentSearchIndex > 0) {
+                currentSearchIndex--;
+                currentPage = pdfSearchResults[currentSearchIndex];
+                renderPage(currentPage);
+                updatePageInfo();
+                updateNavigationButtons();
+            }
+        }
+
+        function nextSearchResult() {
+            if (pdfSearchResults.length > 0 && currentSearchIndex < pdfSearchResults.length - 1) {
+                currentSearchIndex++;
+                currentPage = pdfSearchResults[currentSearchIndex];
+                renderPage(currentPage);
+                updatePageInfo();
+                updateNavigationButtons();
+            }
+        }
+
         function nextMeme() {
             currentMemeIndex = (currentMemeIndex + 1) % memesData.length;
             const modalImage = document.getElementById('modalImage');
@@ -3660,20 +3960,53 @@
         document.getElementById('modalNext').addEventListener('click', nextMeme);
         document.getElementById('modalPrev').addEventListener('click', prevMeme);
 
+        // PDF Modal Event Listeners
+        document.getElementById('pdfModalClose').addEventListener('click', closePDFModal);
+        document.getElementById('pdfPrevPage').addEventListener('click', prevPage);
+        document.getElementById('pdfNextPage').addEventListener('click', nextPage);
+        document.getElementById('pdfZoomIn').addEventListener('click', zoomIn);
+        document.getElementById('pdfZoomOut').addEventListener('click', zoomOut);
+        document.getElementById('pdfSearchBtn').addEventListener('click', searchInPDF);
+        document.getElementById('pdfSearchPrev').addEventListener('click', prevSearchResult);
+        document.getElementById('pdfSearchNext').addEventListener('click', nextSearchResult);
+        
+        // PDF Search on Enter key
+        document.getElementById('pdfSearchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchInPDF();
+            }
+        });
+
         // Close modal on background click
         document.getElementById('memeModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeMemeModal();
             }
         });
+        
+        document.getElementById('pdfModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closePDFModal();
+            }
+        });
 
         // Keyboard navigation for modal
         document.addEventListener('keydown', function(e) {
-            const modal = document.getElementById('memeModal');
-            if (modal.classList.contains('active')) {
+            const memeModal = document.getElementById('memeModal');
+            const pdfModal = document.getElementById('pdfModal');
+            
+            if (memeModal.classList.contains('active')) {
                 if (e.key === 'ArrowRight') nextMeme();
                 if (e.key === 'ArrowLeft') prevMeme();
                 if (e.key === 'Escape') closeMemeModal();
+            }
+            
+            if (pdfModal.classList.contains('active')) {
+                if (e.key === 'ArrowRight') nextPage();
+                if (e.key === 'ArrowLeft') prevPage();
+                if (e.key === 'Escape') closePDFModal();
+                if (e.key === '=') zoomIn();
+                if (e.key === '-') zoomOut();
             }
         });
 
