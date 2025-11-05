@@ -1994,6 +1994,13 @@
                 <h3>Preview:</h3>
                 <canvas id="bannerCanvas"></canvas>
             </div>
+            
+            <div class="html-code-section">
+                <h3>HTML Code for Your Website:</h3>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">Copy this code to add the banner to your website (make sure to download and save the image to /banners/):</p>
+                <textarea id="htmlCode" readonly rows="4" style="width: 100%; padding: 10px; font-family: monospace; font-size: 0.85rem; border: 1px solid #ddd; border-radius: 4px; background: #f9f9f9;"></textarea>
+                <button id="copyCodeButton" class="copy-code-button" onclick="copyHTMLCode()" style="margin-top: 10px; padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">📋 Copy HTML Code</button>
+            </div>
         </div>
         <footer class="footer-section">
             <div class="footer-divider"></div>
@@ -5462,7 +5469,7 @@
                     </div>
                     <div class="url-buttons">
                         <button class="url-button primary" ${(!doc.archiveUrl && !doc.publicUrl) || (doc.archiveUrl === '' && doc.publicUrl === '') ? 'disabled' : `onclick="openPDFModal(${index})"`}>📖 View PDF</button>
-                        <button class="url-button secondary" ${!doc.publicUrl || doc.publicUrl === '' ? 'disabled' : `onclick="window.open('${doc.publicUrl}', '_blank')"`}>🔗 Original</button>
+                        <button class="url-button secondary" ${!doc.publicUrl || doc.publicUrl === '' ? 'disabled' : `onclick="trackExternalLink('documents', '${doc.publicUrl}', '${doc.title.replace(/'/g, '\'')}'); window.open('${doc.publicUrl}', '_blank')"`}>🔗 Original</button>
                     </div>
                 </div>
             `).join('');
@@ -5485,7 +5492,7 @@
                     <div style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">by ${book.author}</div>
                     <div style="font-size: 0.85rem; color: #555; margin-bottom: 15px; line-height: 1.4;">${book.description}</div>
                     <div class="url-buttons">
-                        <button class="url-button primary" onclick="window.open('${book.url}', '_blank')">📚 View Book</button>
+                        <button class="url-button primary" onclick="trackExternalLink('books', '${book.url}', '${book.title.replace(/'/g, '\'')}'); window.open('${book.url}', '_blank')">📚 View Book</button>
                     </div>
                 </div>
             `).join('');
@@ -5524,8 +5531,8 @@
                 <div class="card">
                     <div class="card-title">${channel.title}</div>
                     <div class="url-buttons">
-                        <button class="url-button primary" ${!channel.publicUrl || channel.publicUrl === '' ? 'disabled' : `onclick="window.open('${channel.publicUrl}', '_blank')"`}>🎥 Visit Channel</button>
-                        <button class="url-button secondary" ${!channel.archiveUrl || channel.archiveUrl === '' ? 'disabled' : `onclick="window.open('${channel.archiveUrl}', '_blank')"`}>📁 Archive</button>
+                        <button class="url-button primary" ${!channel.publicUrl || channel.publicUrl === '' ? 'disabled' : `onclick="trackExternalLink('channels', '${channel.publicUrl}', '${channel.title.replace(/'/g, '\'')}'); window.open('${channel.publicUrl}', '_blank')"`}>🎥 Visit Channel</button>
+                        <button class="url-button secondary" ${!channel.archiveUrl || channel.archiveUrl === '' ? 'disabled' : `onclick="trackExternalLink('channels', '${channel.archiveUrl}', '${channel.title.replace(/'/g, '\'')}' + '_archive'); window.open('${channel.archiveUrl}', '_blank')"`}>📁 Archive</button>
                     </div>
                 </div>
             `).join('');
@@ -5545,7 +5552,7 @@
                         </div>
                     </div>
                     <div class="url-buttons">
-                        <button class="url-button primary" onclick="window.open('${playlist.url}', '_blank')">📋 View Playlist</button>
+                        <button class="url-button primary" onclick="trackExternalLink('playlists', '${playlist.url}', '${playlist.title.replace(/'/g, '\'')}'); window.open('${playlist.url}', '_blank')">📋 View Playlist</button>
                     </div>
                 </div>
             `).join('');
@@ -5678,6 +5685,9 @@
             totalPages = 0;
             pdfSearchResults = [];
             currentSearchIndex = -1;
+            
+            // Track modal close event
+            trackEvent('modal_close', 'interaction', 'pdf_modal');
         }
 
         async function loadPDF(url) {
@@ -5744,6 +5754,9 @@
                 renderPage(currentPage);
                 updatePageInfo();
                 updateNavigationButtons();
+                
+                // Track PDF navigation
+                trackEvent('pdf_navigation', 'engagement', 'previous_page', currentPage);
             }
         }
 
@@ -5753,6 +5766,9 @@
                 renderPage(currentPage);
                 updatePageInfo();
                 updateNavigationButtons();
+                
+                // Track PDF navigation
+                trackEvent('pdf_navigation', 'engagement', 'next_page', currentPage);
             }
         }
 
@@ -5760,12 +5776,18 @@
             currentScale = Math.min(currentScale * 1.25, 3.0);
             renderPage(currentPage);
             updateZoomInfo();
+            
+            // Track PDF zoom
+            trackEvent('pdf_zoom', 'engagement', 'zoom_in', currentScale);
         }
 
         function zoomOut() {
             currentScale = Math.max(currentScale / 1.25, 0.25);
             renderPage(currentPage);
             updateZoomInfo();
+            
+            // Track PDF zoom
+            trackEvent('pdf_zoom', 'engagement', 'zoom_out', currentScale);
         }
 
         async function searchInPDF() {
@@ -5974,6 +5996,9 @@
                 // Update URL hash
                 window.history.replaceState(null, null, `#${tabId}`);
                 
+                // Track tab switch event
+                trackTabSwitch(tabId);
+                
                 // Restore scroll position for this tab
                 if (!preserveScroll) {
                     restoreScrollPosition(tabId);
@@ -6087,6 +6112,15 @@
             
             filteredDocumentariesData = filtered;
             currentPage = 1;
+            
+            // Track search and sort events
+            if (query) {
+                trackSearch('documentaries', query, filtered.length);
+            }
+            if (sortBy !== 'title-asc') {
+                trackSort('documentaries', sortBy);
+            }
+            
             renderDocumentaries();
         }
 
@@ -6099,6 +6133,15 @@
             filtered = performSort(filtered, sortBy);
             
             filteredDocumentsData = filtered;
+            
+            // Track search and sort events
+            if (query) {
+                trackSearch('documents', query, filtered.length);
+            }
+            if (sortBy !== 'title-asc') {
+                trackSort('documents', sortBy);
+            }
+            
             renderDocuments();
         }
 
@@ -6111,6 +6154,15 @@
             filtered = performSort(filtered, sortBy);
             
             filteredMemesData = filtered;
+            
+            // Track search and sort events
+            if (query) {
+                trackSearch('memes', query, filtered.length);
+            }
+            if (sortBy !== 'alt-asc') {
+                trackSort('memes', sortBy);
+            }
+            
             renderMemes();
         }
 
@@ -6123,6 +6175,15 @@
             filtered = performSort(filtered, sortBy);
             
             filteredMusicData = filtered;
+            
+            // Track search and sort events
+            if (query) {
+                trackSearch('music', query, filtered.length);
+            }
+            if (sortBy !== 'title-asc') {
+                trackSort('music', sortBy);
+            }
+            
             renderMusicVideos();
         }
 
@@ -6135,6 +6196,15 @@
             filtered = performSort(filtered, sortBy);
             
             filteredBooksData = filtered;
+            
+            // Track search and sort events
+            if (query) {
+                trackSearch('books', query, filtered.length);
+            }
+            if (sortBy !== 'title-asc') {
+                trackSort('books', sortBy);
+            }
+            
             renderBooks();
         }
 
@@ -6147,6 +6217,15 @@
             filtered = performSort(filtered, sortBy);
             
             filteredChannelsData = filtered;
+            
+            // Track search and sort events
+            if (query) {
+                trackSearch('channels', query, filtered.length);
+            }
+            if (sortBy !== 'title-asc') {
+                trackSort('channels', sortBy);
+            }
+            
             renderChannels();
         }
 
@@ -6159,6 +6238,15 @@
             filtered = performSort(filtered, sortBy);
             
             filteredScripturesData = filtered;
+            
+            // Track search and sort events
+            if (query) {
+                trackSearch('scriptures', query, filtered.length);
+            }
+            if (sortBy !== 'title-asc') {
+                trackSort('scriptures', sortBy);
+            }
+            
             renderScriptures();
         }
 
@@ -6171,6 +6259,15 @@
             filtered = performSort(filtered, sortBy);
             
             filteredPlaylistsData = filtered;
+            
+            // Track search and sort events
+            if (query) {
+                trackSearch('playlists', query, filtered.length);
+            }
+            if (sortBy !== 'title-asc') {
+                trackSort('playlists', sortBy);
+            }
+            
             renderPlaylists();
         }
 
@@ -6247,6 +6344,13 @@
             
             // Enable download button
             document.getElementById('downloadBanner').disabled = false;
+            
+            // Generate HTML code
+            generateHTMLCode();
+            
+            // Track banner generation
+            const filename = generateBannerFilename();
+            trackEvent('banner_generate', 'engagement', filename);
         }
         
         function drawBackground(ctx, width, height, style) {
@@ -6311,10 +6415,59 @@
         
         function downloadBanner() {
             const canvas = document.getElementById('bannerCanvas');
+            const filename = generateBannerFilename();
             const link = document.createElement('a');
-            link.download = '88888888-life-banner.png';
+            link.download = filename;
             link.href = canvas.toDataURL();
             link.click();
+            
+            // Track banner download
+            trackEvent('banner_download', 'engagement', filename);
+        }
+        
+        function generateBannerFilename() {
+            const size = document.getElementById('bannerSize').value;
+            const backgroundStyle = document.getElementById('backgroundStyle').value
+                .toLowerCase().replace(/\s+/g, '-');
+            const mainText = document.getElementById('mainText').value
+                .toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+            
+            return `88888888-life-banner-${size}-${backgroundStyle}-${mainText}.png`;
+        }
+        
+        function generateHTMLCode() {
+            const size = document.getElementById('bannerSize').value;
+            const [width, height] = size.split('x').map(Number);
+            const filename = generateBannerFilename();
+            
+            const htmlCode = `<a href="//88888888.life/" target="_top"><img src="//88888888.life/banners/${filename}" alt="88888888.life - Explore Truth & Knowledge" title="Visit 88888888.life" width="${width}" height="${height}" /></a>`;
+            
+            document.getElementById('htmlCode').value = htmlCode;
+            return htmlCode;
+        }
+        
+        function copyHTMLCode() {
+            const htmlCodeTextarea = document.getElementById('htmlCode');
+            htmlCodeTextarea.select();
+            htmlCodeTextarea.setSelectionRange(0, 99999); // For mobile devices
+            
+            try {
+                document.execCommand('copy');
+                const button = document.getElementById('copyCodeButton');
+                const originalText = button.textContent;
+                button.textContent = '✅ Copied!';
+                button.style.background = '#28a745';
+                
+                // Track code copy
+                trackEvent('banner_code_copy', 'engagement', htmlCodeTextarea.value);
+                
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = '#007bff';
+                }, 2000);
+            } catch (err) {
+                alert('Unable to copy to clipboard. Please select the text and copy manually.');
+            }
         }
         
         // Banner Generator Event Listeners
@@ -6398,6 +6551,9 @@
             localStorage.setItem(setting, accessibilitySettings[setting].toString());
             applyAccessibilitySettings();
             updateAccessibilityToggles();
+            
+            // Track accessibility feature usage
+            trackAccessibilityFeature(setting, accessibilitySettings[setting]);
             
             // Announce change to screen readers
             const settingName = setting.replace(/([A-Z])/g, ' $1').toLowerCase();
@@ -6539,6 +6695,51 @@
                 generateBanner();
             }
         }, 100);
+
+        // Google Analytics Event Tracking Helper
+        function trackEvent(action, category, label = '', value = null) {
+            if (typeof gtag !== 'undefined') {
+                const eventData = {
+                    event_category: category,
+                    event_label: label
+                };
+                if (value !== null) {
+                    eventData.value = value;
+                }
+                gtag('event', action, eventData);
+                console.log('GA Event:', action, category, label, value);
+            }
+        }
+
+        // Track tab switches
+        function trackTabSwitch(tabId) {
+            trackEvent('tab_switch', 'navigation', tabId);
+        }
+
+        // Track search actions
+        function trackSearch(tabName, query, resultsCount) {
+            trackEvent('search', `${tabName}_search`, query, resultsCount);
+        }
+
+        // Track sort actions
+        function trackSort(tabName, sortOption) {
+            trackEvent('sort', `${tabName}_sort`, sortOption);
+        }
+
+        // Track external link clicks
+        function trackExternalLink(category, url, title) {
+            trackEvent('external_link_click', category, `${title} - ${url}`);
+        }
+
+        // Track language changes
+        function trackLanguageChange(newLanguage) {
+            trackEvent('language_change', 'settings', newLanguage);
+        }
+
+        // Track accessibility feature usage
+        function trackAccessibilityFeature(feature, enabled) {
+            trackEvent('accessibility_feature', 'settings', feature, enabled ? 1 : 0);
+        }
     </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-901879C3CW"></script>
