@@ -1585,6 +1585,33 @@
 
         <!-- Integral Tab -->
         <section class="tab-content" id="integral" role="tabpanel" aria-labelledby="tab-integral" aria-hidden="true">
+            <div class="controls">
+                <div class="search-sort">
+                    <label for="integralSearch" class="sr-only">Search integral videos</label>
+                    <input type="text" id="integralSearch" placeholder="Search integral videos by title..." aria-label="Search integral videos by title">
+                    <label for="integralSort" class="sr-only">Sort integral videos</label>
+                    <select id="integralSort" aria-label="Sort integral videos by">
+                        <option value="title-asc">Sort by Title (A-Z)</option>
+                        <option value="title-desc">Sort by Title (Z-A)</option>
+                        <option value="duration-asc">Sort by Duration (Short-Long)</option>
+                        <option value="duration-desc">Sort by Duration (Long-Short)</option>
+                    </select>
+                    <div class="filter-buttons" style="display: flex; gap: 8px; margin-left: 10px;">
+                        <button id="integralFavoritesFilter" 
+                                onclick="toggleFavoritesFilter('integral')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only favorites">
+                            🤍 Favorites
+                        </button>
+                        <button id="integralCompletedFilter" 
+                                onclick="toggleCompletedFilter('integral')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only researched items">
+                            ⭕ Researched
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div class="grid" id="integralGrid" role="grid" aria-label="Integral videos collection"></div>
             <div class="pagination" id="integralPagination"></div>
             <footer class="footer-section">
@@ -1609,6 +1636,20 @@
                         <option value="duration-asc">Sort by Duration (Short-Long)</option>
                         <option value="duration-desc">Sort by Duration (Long-Short)</option>
                     </select>
+                    <div class="filter-buttons" style="display: flex; gap: 8px; margin-left: 10px;">
+                        <button id="documentariesFavoritesFilter" 
+                                onclick="toggleFavoritesFilter('documentaries')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only favorites">
+                            🤍 Favorites
+                        </button>
+                        <button id="documentariesCompletedFilter" 
+                                onclick="toggleCompletedFilter('documentaries')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only researched items">
+                            ⭕ Researched
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="grid" id="documentariesGrid" role="grid" aria-label="Documentaries collection"></div>
@@ -1633,6 +1674,20 @@
                         <option value="title-asc">Sort by Title (A-Z)</option>
                         <option value="title-desc">Sort by Title (Z-A)</option>
                     </select>
+                    <div class="filter-buttons" style="display: flex; gap: 8px; margin-left: 10px;">
+                        <button id="documentsFavoritesFilter" 
+                                onclick="toggleFavoritesFilter('documents')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only favorites">
+                            🤍 Favorites
+                        </button>
+                        <button id="documentsCompletedFilter" 
+                                onclick="toggleCompletedFilter('documents')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only researched items">
+                            ⭕ Researched
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="grid" id="documentsGrid" role="grid" aria-label="Documents collection"></div>
@@ -1656,6 +1711,20 @@
                         <option value="alt-asc">Sort by Description (A-Z)</option>
                         <option value="alt-desc">Sort by Description (Z-A)</option>
                     </select>
+                    <div class="filter-buttons" style="display: flex; gap: 8px; margin-left: 10px;">
+                        <button id="memesFavoritesFilter" 
+                                onclick="toggleFavoritesFilter('memes')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only favorites">
+                            🤍 Favorites
+                        </button>
+                        <button id="memesCompletedFilter" 
+                                onclick="toggleCompletedFilter('memes')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only researched items">
+                            ⭕ Researched
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="grid" id="memesGrid" role="grid" aria-label="Memes collection"></div>
@@ -1681,6 +1750,20 @@
                         <option value="duration-asc">Sort by Duration (Short-Long)</option>
                         <option value="duration-desc">Sort by Duration (Long-Short)</option>
                     </select>
+                    <div class="filter-buttons" style="display: flex; gap: 8px; margin-left: 10px;">
+                        <button id="musicFavoritesFilter" 
+                                onclick="toggleFavoritesFilter('music')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only favorites">
+                            🤍 Favorites
+                        </button>
+                        <button id="musicCompletedFilter" 
+                                onclick="toggleCompletedFilter('music')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only researched items">
+                            ⭕ Researched
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="grid" id="musicGrid" role="grid" aria-label="Music videos collection"></div>
@@ -1706,6 +1789,20 @@
                         <option value="author-asc">Sort by Author (A-Z)</option>
                         <option value="author-desc">Sort by Author (Z-A)</option>
                     </select>
+                    <div class="filter-buttons" style="display: flex; gap: 8px; margin-left: 10px;">
+                        <button id="booksFavoritesFilter" 
+                                onclick="toggleFavoritesFilter('books')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only favorites">
+                            🤍 Favorites
+                        </button>
+                        <button id="booksCompletedFilter" 
+                                onclick="toggleCompletedFilter('books')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only researched items">
+                            ⭕ Researched
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="grid" id="booksGrid" role="grid" aria-label="Books collection"></div>
@@ -1729,6 +1826,20 @@
                         <option value="title-asc">Sort by Title (A-Z)</option>
                         <option value="title-desc">Sort by Title (Z-A)</option>
                     </select>
+                    <div class="filter-buttons" style="display: flex; gap: 8px; margin-left: 10px;">
+                        <button id="channelsFavoritesFilter" 
+                                onclick="toggleFavoritesFilter('channels')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only favorites">
+                            🤍 Favorites
+                        </button>
+                        <button id="channelsCompletedFilter" 
+                                onclick="toggleCompletedFilter('channels')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only researched items">
+                            ⭕ Researched
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="grid" id="channelsGrid" role="grid" aria-label="Channels collection"></div>
@@ -1754,6 +1865,20 @@
                         <option value="description-asc">Sort by Description (A-Z)</option>
                         <option value="description-desc">Sort by Description (Z-A)</option>
                     </select>
+                    <div class="filter-buttons" style="display: flex; gap: 8px; margin-left: 10px;">
+                        <button id="playlistsFavoritesFilter" 
+                                onclick="toggleFavoritesFilter('playlists')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only favorites">
+                            🤍 Favorites
+                        </button>
+                        <button id="playlistsCompletedFilter" 
+                                onclick="toggleCompletedFilter('playlists')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only researched items">
+                            ⭕ Researched
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="grid" id="playlistsGrid" role="grid" aria-label="Playlists collection"></div>
@@ -1781,6 +1906,20 @@
                         <option value="category-asc">Sort by Category (A-Z)</option>
                         <option value="category-desc">Sort by Category (Z-A)</option>
                     </select>
+                    <div class="filter-buttons" style="display: flex; gap: 8px; margin-left: 10px;">
+                        <button id="scripturesFavoritesFilter" 
+                                onclick="toggleFavoritesFilter('scriptures')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only favorites">
+                            🤍 Favorites
+                        </button>
+                        <button id="scripturesCompletedFilter" 
+                                onclick="toggleCompletedFilter('scriptures')"
+                                style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                                title="Show only researched items">
+                            ⭕ Researched
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="description-text" style="text-align: center; margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; color: #555; font-size: 0.95rem; line-height: 1.6;">
@@ -5618,7 +5757,7 @@
             const end = start + itemsPerPage;
             const pageData = filteredDocumentariesData.slice(start, end);
 
-            grid.innerHTML = pageData.map(doc => `
+            grid.innerHTML = pageData.map((doc, index) => `
                 <div class="card">
                     <div class="card-title">${doc.title}</div>
                     <span class="card-duration">${formatDuration(doc.duration)}</span>
@@ -5626,6 +5765,7 @@
                         <button class="url-button primary" ${!doc.publicUrl || doc.publicUrl === '' ? 'disabled' : `onclick="playVideo('${doc.publicUrl}', '${doc.title.replace(/'/g, "\\'")}')"` }>▶ ${t('buttons.play')}</button>
                         <button class="url-button archive" ${!doc.archiveUrl || doc.archiveUrl === '' ? 'disabled' : `onclick="playVideo('${doc.archiveUrl}', '${doc.title.replace(/'/g, "\\'")}')"` }>📁 Archive</button>
                     </div>
+                    ${generateActionButtons('documentaries', doc, index)}
                 </div>
             `).join('');
 
@@ -5670,6 +5810,7 @@
                         <button class="url-button primary" ${(!doc.archiveUrl && !doc.publicUrl) || (doc.archiveUrl === '' && doc.publicUrl === '') ? 'disabled' : `onclick="openPDFModal(${index})"`}>📖 View PDF</button>
                         <button class="url-button secondary" ${!doc.publicUrl || doc.publicUrl === '' ? 'disabled' : `onclick="trackExternalLink('documents', '${doc.publicUrl}', '${doc.title.replace(/'/g, '\'')}'); window.open('${doc.publicUrl}', '_blank')"`}>🔗 Original</button>
                     </div>
+                    ${generateActionButtons('documents', doc, index)}
                 </div>
             `).join('');
         }
@@ -5677,15 +5818,16 @@
         function renderMemes() {
             const grid = document.getElementById('memesGrid');
             grid.innerHTML = filteredMemesData.map((meme, index) => `
-                <div class="card meme-card" onclick="openMemeModal(${index})">
-                    <img class="meme-image" src="${meme.src}" alt="${meme.alt}">
+                <div class="card meme-card">
+                    <img class="meme-image" src="${meme.src}" alt="${meme.alt}" onclick="openMemeModal(${index})" style="cursor: pointer;">
+                    ${generateActionButtons('memes', meme, index)}
                 </div>
             `).join('');
         }
 
         function renderBooks() {
             const grid = document.getElementById('booksGrid');
-            grid.innerHTML = filteredBooksData.map(book => `
+            grid.innerHTML = filteredBooksData.map((book, index) => `
                 <div class="card">
                     <div class="card-title">${book.title}</div>
                     <div style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">by ${book.author}</div>
@@ -5693,26 +5835,28 @@
                     <div class="url-buttons">
                         <button class="url-button primary" onclick="trackExternalLink('books', '${book.url}', '${book.title.replace(/'/g, '\'')}'); window.open('${book.url}', '_blank')">📚 View Book</button>
                     </div>
+                    ${generateActionButtons('books', book, index)}
                 </div>
             `).join('');
         }
 
         function renderMusicVideos() {
             const grid = document.getElementById('musicGrid');
-            grid.innerHTML = filteredMusicData.map(video => `
+            grid.innerHTML = filteredMusicData.map((video, index) => `
                 <div class="card">
                     <div class="card-title">${video.title}</div>
                     <span class="card-duration">${formatDuration(video.duration)}</span>
                     <div class="url-buttons">
                         <button class="url-button primary" onclick="playVideo('${video.url}', '${video.title.replace(/'/g, "\\'")}')">${t('buttons.play')}</button>
                     </div>
+                    ${generateActionButtons('music', video, index)}
                 </div>
             `).join('');
         }
 
         function renderIntegral() {
             const grid = document.getElementById('integralGrid');
-            grid.innerHTML = integralData.map(integral => `
+            grid.innerHTML = filteredIntegralData.map((integral, index) => `
                 <div class="card">
                     <div class="card-title">${integral.title}</div>
                     <span class="card-duration">${formatDuration(integral.duration)}</span>
@@ -5720,26 +5864,28 @@
                         <button class="url-button primary" ${!integral.publicUrl || integral.publicUrl === '' ? 'disabled' : `onclick="playVideo('${integral.publicUrl}', '${integral.title.replace(/'/g, "\\'")}')"` }>▶ Watch</button>
                         <button class="url-button archive" ${!integral.archiveUrl || integral.archiveUrl === '' ? 'disabled' : `onclick="playVideo('${integral.archiveUrl}', '${integral.title.replace(/'/g, "\\'")}')"` }>📁 Archive</button>
                     </div>
+                    ${generateActionButtons('integral', integral, index)}
                 </div>
             `).join('');
         }
 
         function renderChannels() {
             const grid = document.getElementById('channelsGrid');
-            grid.innerHTML = filteredChannelsData.map(channel => `
+            grid.innerHTML = filteredChannelsData.map((channel, index) => `
                 <div class="card">
                     <div class="card-title">${channel.title}</div>
                     <div class="url-buttons">
                         <button class="url-button primary" ${!channel.publicUrl || channel.publicUrl === '' ? 'disabled' : `onclick="trackExternalLink('channels', '${channel.publicUrl}', '${channel.title.replace(/'/g, '\'')}'); window.open('${channel.publicUrl}', '_blank')"`}>🎥 Visit Channel</button>
                         <button class="url-button secondary" ${!channel.archiveUrl || channel.archiveUrl === '' ? 'disabled' : `onclick="trackExternalLink('channels', '${channel.archiveUrl}', '${channel.title.replace(/'/g, '\'')}' + '_archive'); window.open('${channel.archiveUrl}', '_blank')"`}>📁 Archive</button>
                     </div>
+                    ${generateActionButtons('channels', channel, index)}
                 </div>
             `).join('');
         }
 
         function renderPlaylists() {
             const grid = document.getElementById('playlistsGrid');
-            grid.innerHTML = filteredPlaylistsData.map(playlist => `
+            grid.innerHTML = filteredPlaylistsData.map((playlist, index) => `
                 <div class="card playlist-card">
                     <div class="playlist-icon">📋</div>
                     <div class="playlist-info">
@@ -5752,6 +5898,7 @@
                             <button class="url-button primary" onclick="trackExternalLink('playlists', '${playlist.url}', '${playlist.title.replace(/'/g, '\'')}'); window.open('${playlist.url}', '_blank')">📋 View Playlist</button>
                         </div>
                     </div>
+                    ${generateActionButtons('playlists', playlist, index)}
                 </div>
             `).join('');
         }
@@ -5759,11 +5906,14 @@
         function renderScriptures() {
             const grid = document.getElementById('scripturesGrid');
             grid.innerHTML = filteredScripturesData.map((scripture, index) => `
-                <div class="card scripture-card" onclick="openScriptureModal(${index})">
-                    <div class="card-title">${scripture.title}</div>
-                    <div class="scripture-reference">${scripture.reference}</div>
-                    <div class="scripture-preview">${scripture.text}</div>
-                    <div class="scripture-card-category">${scripture.category}</div>
+                <div class="card scripture-card">
+                    <div onclick="openScriptureModal(${index})" style="cursor: pointer;">
+                        <div class="card-title">${scripture.title}</div>
+                        <div class="scripture-reference">${scripture.reference}</div>
+                        <div class="scripture-preview">${scripture.text}</div>
+                        <div class="scripture-card-category">${scripture.category}</div>
+                    </div>
+                    ${generateActionButtons('scriptures', scripture, index)}
                 </div>
             `).join('');
         }
@@ -6260,6 +6410,7 @@
         let filteredMusicData = [...musicVideosData];
         let filteredBooksData = [...booksData];
         let filteredChannelsData = [...channelsData];
+        let filteredIntegralData = [...integralData];
         let filteredScripturesData = [...scripturesData];
         let filteredPlaylistsData = [...playlistsData];
 
@@ -6307,6 +6458,7 @@
             
             let filtered = performSearch(documentariesData, query, ['title']);
             filtered = performSort(filtered, sortBy);
+            filtered = applyUserPreferenceFilters(filtered, 'documentaries');
             
             filteredDocumentariesData = filtered;
             currentPage = 1;
@@ -6329,6 +6481,7 @@
             
             let filtered = performSearch(documentsData, query, ['title']);
             filtered = performSort(filtered, sortBy);
+            filtered = applyUserPreferenceFilters(filtered, 'documents');
             
             filteredDocumentsData = filtered;
             
@@ -6350,6 +6503,7 @@
             
             let filtered = performSearch(memesData, query, ['alt']);
             filtered = performSort(filtered, sortBy);
+            filtered = applyUserPreferenceFilters(filtered, 'memes');
             
             filteredMemesData = filtered;
             
@@ -6372,6 +6526,9 @@
             let filtered = performSearch(musicVideosData, query, ['title']);
             filtered = performSort(filtered, sortBy);
             
+            // Apply user preference filters
+            filtered = applyUserPreferenceFilters(filtered, 'music');
+            
             filteredMusicData = filtered;
             
             // Track search and sort events
@@ -6392,6 +6549,9 @@
             
             let filtered = performSearch(booksData, query, ['title']);
             filtered = performSort(filtered, sortBy);
+            
+            // Apply user preference filters
+            filtered = applyUserPreferenceFilters(filtered, 'books');
             
             filteredBooksData = filtered;
             
@@ -6414,6 +6574,9 @@
             let filtered = performSearch(channelsData, query, ['title']);
             filtered = performSort(filtered, sortBy);
             
+            // Apply user preference filters
+            filtered = applyUserPreferenceFilters(filtered, 'channels');
+            
             filteredChannelsData = filtered;
             
             // Track search and sort events
@@ -6427,6 +6590,30 @@
             renderChannels();
         }
 
+        // Integral Search and Sort
+        function searchAndSortIntegral() {
+            const query = document.getElementById('integralSearch').value;
+            const sortBy = document.getElementById('integralSort').value;
+            
+            let filtered = performSearch(integralData, query, ['title']);
+            filtered = performSort(filtered, sortBy);
+            
+            // Apply user preference filters
+            filtered = applyUserPreferenceFilters(filtered, 'integral');
+            
+            filteredIntegralData = filtered;
+            
+            // Track search and sort events
+            if (query) {
+                trackSearch('integral', query, filtered.length);
+            }
+            if (sortBy !== 'title-asc') {
+                trackSort('integral', sortBy);
+            }
+            
+            renderIntegral();
+        }
+
         // Scriptures Search and Sort
         function searchAndSortScriptures() {
             const query = document.getElementById('scripturesSearch').value;
@@ -6434,6 +6621,7 @@
             
             let filtered = performSearch(scripturesData, query, ['title', 'text', 'reference']);
             filtered = performSort(filtered, sortBy);
+            filtered = applyUserPreferenceFilters(filtered, 'scriptures');
             
             filteredScripturesData = filtered;
             
@@ -6455,6 +6643,9 @@
             
             let filtered = performSearch(playlistsData, query, ['title', 'description']);
             filtered = performSort(filtered, sortBy);
+            
+            // Apply user preference filters
+            filtered = applyUserPreferenceFilters(filtered, 'playlists');
             
             filteredPlaylistsData = filtered;
             
@@ -6487,6 +6678,9 @@
         
         document.getElementById('channelsSearch').addEventListener('input', searchAndSortChannels);
         document.getElementById('channelsSort').addEventListener('change', searchAndSortChannels);
+        
+        document.getElementById('integralSearch').addEventListener('input', searchAndSortIntegral);
+        document.getElementById('integralSort').addEventListener('change', searchAndSortIntegral);
         
         document.getElementById('scripturesSearch').addEventListener('input', searchAndSortScriptures);
         document.getElementById('scripturesSort').addEventListener('change', searchAndSortScriptures);
@@ -6937,6 +7131,311 @@
         // Track accessibility feature usage
         function trackAccessibilityFeature(feature, enabled) {
             trackEvent('accessibility_feature', 'settings', feature, enabled ? 1 : 0);
+        }
+
+        // Favorites and Completion Tracking System
+        window.userPreferences = {};
+
+        // Initialize user preferences safely
+        function initializeUserPreferences() {
+            try {
+                window.userPreferences = {
+                    favorites: JSON.parse(localStorage.getItem('userFavorites') || '{}'),
+                    completed: JSON.parse(localStorage.getItem('userCompleted') || '{}')
+                };
+            } catch (error) {
+                console.warn('Error loading user preferences, using defaults:', error);
+                window.userPreferences = {
+                    favorites: {},
+                    completed: {}
+                };
+            }
+        }
+
+        // Initialize on page load
+        initializeUserPreferences();
+
+        // Generate unique ID for any resource
+        function generateResourceId(type, item, index) {
+            if (type === 'documentaries' || type === 'integral' || type === 'music') {
+                return `${type}_${item.title}_${index}`;
+            } else if (type === 'documents') {
+                return `${type}_${item.title}_${index}`;
+            } else if (type === 'memes') {
+                return `${type}_${item.src}_${index}`;
+            } else if (type === 'books') {
+                return `${type}_${item.title}_${item.author}_${index}`;
+            } else if (type === 'channels') {
+                return `${type}_${item.title}_${index}`;
+            } else if (type === 'playlists') {
+                return `${type}_${item.title}_${index}`;
+            } else if (type === 'scriptures') {
+                return `${type}_${item.reference}_${index}`;
+            }
+            return `${type}_${index}`;
+        }
+
+        // Toggle favorite status
+        function toggleFavorite(resourceType, item, index) {
+            if (!window.userPreferences || !window.userPreferences.favorites) {
+                initializeUserPreferences();
+            }
+            
+            const resourceId = generateResourceId(resourceType, item, index);
+            
+            if (window.userPreferences.favorites[resourceId]) {
+                delete window.userPreferences.favorites[resourceId];
+            } else {
+                window.userPreferences.favorites[resourceId] = {
+                    type: resourceType,
+                    title: item.title || item.alt || item.reference || 'Unknown',
+                    timestamp: Date.now()
+                };
+            }
+            
+            localStorage.setItem('userFavorites', JSON.stringify(window.userPreferences.favorites));
+            
+            // Track favorite action
+            const action = window.userPreferences.favorites[resourceId] ? 'add' : 'remove';
+            trackEvent('favorite_toggle', 'engagement', `${resourceType}_${action}`);
+            
+            // Update UI
+            updateResourceUI(resourceType);
+        }
+
+        // Toggle completed status
+        function toggleCompleted(resourceType, item, index) {
+            if (!window.userPreferences || !window.userPreferences.completed) {
+                initializeUserPreferences();
+            }
+            
+            const resourceId = generateResourceId(resourceType, item, index);
+            
+            if (window.userPreferences.completed[resourceId]) {
+                delete window.userPreferences.completed[resourceId];
+            } else {
+                window.userPreferences.completed[resourceId] = {
+                    type: resourceType,
+                    title: item.title || item.alt || item.reference || 'Unknown',
+                    timestamp: Date.now()
+                };
+            }
+            
+            localStorage.setItem('userCompleted', JSON.stringify(window.userPreferences.completed));
+            
+            // Track completion action
+            const action = window.userPreferences.completed[resourceId] ? 'mark' : 'unmark';
+            trackEvent('completion_toggle', 'engagement', `${resourceType}_${action}`);
+            
+            // Update UI
+            updateResourceUI(resourceType);
+        }
+
+        // Check if resource is favorited
+        function isFavorited(resourceType, item, index) {
+            if (!window.userPreferences || !window.userPreferences.favorites) {
+                initializeUserPreferences();
+            }
+            const resourceId = generateResourceId(resourceType, item, index);
+            return !!window.userPreferences.favorites[resourceId];
+        }
+
+        // Check if resource is completed
+        function isCompleted(resourceType, item, index) {
+            if (!window.userPreferences || !window.userPreferences.completed) {
+                initializeUserPreferences();
+            }
+            const resourceId = generateResourceId(resourceType, item, index);
+            return !!window.userPreferences.completed[resourceId];
+        }
+
+        // Update UI for a specific resource type
+        function updateResourceUI(resourceType) {
+            switch(resourceType) {
+                case 'documentaries':
+                    renderDocumentaries();
+                    break;
+                case 'integral':
+                    renderIntegral();
+                    break;
+                case 'documents':
+                    renderDocuments();
+                    break;
+                case 'memes':
+                    renderMemes();
+                    break;
+                case 'music':
+                    renderMusicVideos();
+                    break;
+                case 'books':
+                    renderBooks();
+                    break;
+                case 'channels':
+                    renderChannels();
+                    break;
+                case 'playlists':
+                    renderPlaylists();
+                    break;
+                case 'scriptures':
+                    renderScriptures();
+                    break;
+            }
+        }
+
+        // Filter states for each tab
+        let filterStates = {
+            documentaries: { showFavorites: false, showCompleted: false },
+            integral: { showFavorites: false, showCompleted: false },
+            documents: { showFavorites: false, showCompleted: false },
+            memes: { showFavorites: false, showCompleted: false },
+            music: { showFavorites: false, showCompleted: false },
+            books: { showFavorites: false, showCompleted: false },
+            channels: { showFavorites: false, showCompleted: false },
+            playlists: { showFavorites: false, showCompleted: false },
+            scriptures: { showFavorites: false, showCompleted: false }
+        };
+
+        // Toggle favorites filter
+        function toggleFavoritesFilter(tabName) {
+            filterStates[tabName].showFavorites = !filterStates[tabName].showFavorites;
+            updateFilterButtons(tabName);
+            applyFilters(tabName);
+            trackEvent('filter_toggle', 'engagement', `${tabName}_favorites_${filterStates[tabName].showFavorites ? 'on' : 'off'}`);
+        }
+
+        // Toggle completed filter
+        function toggleCompletedFilter(tabName) {
+            filterStates[tabName].showCompleted = !filterStates[tabName].showCompleted;
+            updateFilterButtons(tabName);
+            applyFilters(tabName);
+            trackEvent('filter_toggle', 'engagement', `${tabName}_completed_${filterStates[tabName].showCompleted ? 'on' : 'off'}`);
+        }
+
+        // Update filter button appearance
+        function updateFilterButtons(tabName) {
+            const favBtn = document.getElementById(`${tabName}FavoritesFilter`);
+            const compBtn = document.getElementById(`${tabName}CompletedFilter`);
+            
+            if (favBtn) {
+                favBtn.style.background = filterStates[tabName].showFavorites ? '#ff6b6b' : '#f0f0f0';
+                favBtn.style.color = filterStates[tabName].showFavorites ? 'white' : '#333';
+                favBtn.textContent = filterStates[tabName].showFavorites ? '❤️ Favorites' : '🤍 Favorites';
+            }
+            
+            if (compBtn) {
+                compBtn.style.background = filterStates[tabName].showCompleted ? '#4ecdc4' : '#f0f0f0';
+                compBtn.style.color = filterStates[tabName].showCompleted ? 'white' : '#333';
+                compBtn.textContent = filterStates[tabName].showCompleted ? '✅ Researched' : '⭕ Researched';
+            }
+        }
+
+        // Apply filters to data and re-render
+        function applyFilters(tabName) {
+            // Re-run the search and sort function for the tab which will apply filters
+            switch(tabName) {
+                case 'documentaries':
+                    searchAndSortDocumentaries();
+                    break;
+                case 'integral':
+                    searchAndSortIntegral();
+                    break;
+                case 'documents':
+                    searchAndSortDocuments();
+                    break;
+                case 'memes':
+                    searchAndSortMemes();
+                    break;
+                case 'music':
+                    searchAndSortMusic();
+                    break;
+                case 'books':
+                    searchAndSortBooks();
+                    break;
+                case 'channels':
+                    searchAndSortChannels();
+                    break;
+                case 'playlists':
+                    searchAndSortPlaylists();
+                    break;
+                case 'scriptures':
+                    searchAndSortScriptures();
+                    break;
+            }
+        }
+
+        // Apply user preference filters to data
+        function applyUserPreferenceFilters(data, tabName) {
+            if (!filterStates[tabName].showFavorites && !filterStates[tabName].showCompleted) {
+                return data; // No filters active
+            }
+            
+            return data.filter((item, index) => {
+                const showFav = !filterStates[tabName].showFavorites || isFavorited(tabName, item, index);
+                const showComp = !filterStates[tabName].showCompleted || isCompleted(tabName, item, index);
+                return showFav && showComp;
+            });
+        }
+
+        // Generate filter buttons HTML
+        function generateFilterButtons(tabName) {
+            return `
+                <div class="filter-buttons" style="display: flex; gap: 8px; margin-left: 10px;">
+                    <button id="${tabName}FavoritesFilter" 
+                            onclick="toggleFavoritesFilter('${tabName}')"
+                            style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                            title="Show only favorites">
+                        🤍 Favorites
+                    </button>
+                    <button id="${tabName}CompletedFilter" 
+                            onclick="toggleCompletedFilter('${tabName}')"
+                            style="padding: 6px 12px; border: 1px solid #ddd; border-radius: 4px; background: #f0f0f0; color: #333; cursor: pointer; font-size: 0.85rem; transition: all 0.2s;"
+                            title="Show only researched items">
+                        ⭕ Researched
+                    </button>
+                </div>
+            `;
+        }
+
+        // Generate action buttons HTML
+        function generateActionButtons(resourceType, item, index) {
+            const favorited = isFavorited(resourceType, item, index);
+            const completed = isCompleted(resourceType, item, index);
+            
+            const favoriteIcon = favorited ? '❤️' : '🤍';
+            const favoriteTitle = favorited ? 'Remove from favorites' : 'Add to favorites';
+            const completedIcon = completed ? '✅' : '⭕';
+            const completedTitle = completed ? 'Mark as not researched' : 'Mark as researched';
+            
+            // Create a safe item object for onclick handlers
+            const safeItem = {
+                title: item.title || '',
+                alt: item.alt || '',
+                reference: item.reference || '',
+                src: item.src || '',
+                author: item.author || '',
+                url: item.url || ''
+            };
+            
+            return `
+                <div class="action-buttons" style="display: flex; gap: 5px; margin-top: 8px; justify-content: center;">
+                    <button class="action-btn favorite-btn" 
+                            onclick="toggleFavorite('${resourceType}', ${JSON.stringify(safeItem).replace(/"/g, '&quot;')}, ${index})" 
+                            title="${favoriteTitle}"
+                            style="background: none; border: none; font-size: 16px; cursor: pointer; padding: 6px; border-radius: 4px; transition: all 0.2s; opacity: 0.8;"
+                            onmouseover="this.style.opacity='1'; this.style.background='rgba(0,0,0,0.1)'"
+                            onmouseout="this.style.opacity='0.8'; this.style.background='none'">
+                        ${favoriteIcon}
+                    </button>
+                    <button class="action-btn completed-btn" 
+                            onclick="toggleCompleted('${resourceType}', ${JSON.stringify(safeItem).replace(/"/g, '&quot;')}, ${index})" 
+                            title="${completedTitle}"
+                            style="background: none; border: none; font-size: 16px; cursor: pointer; padding: 6px; border-radius: 4px; transition: all 0.2s; opacity: 0.8;"
+                            onmouseover="this.style.opacity='1'; this.style.background='rgba(0,0,0,0.1)'"
+                            onmouseout="this.style.opacity='0.8'; this.style.background='none'">
+                        ${completedIcon}
+                    </button>
+                </div>
+            `;
         }
     </script>
     <!-- Google tag (gtag.js) -->
