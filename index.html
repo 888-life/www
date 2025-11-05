@@ -622,6 +622,145 @@
             background: white;
         }
 
+        /* Scripture Modal Styles */
+        .scripture-modal-content {
+            width: 90vw;
+            max-width: 800px;
+            max-height: 90vh;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .scripture-header {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .scripture-header h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .scripture-header p {
+            margin: 0 0 15px 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .scripture-category {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .scripture-body {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .scripture-body p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #333;
+            margin: 0;
+            font-family: 'Georgia', serif;
+        }
+
+        .scripture-footer {
+            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .scripture-nav-btn {
+            background: linear-gradient(135deg, #4a90e2, #357abd);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .scripture-nav-btn:hover {
+            background: linear-gradient(135deg, #357abd, #2868a3);
+            transform: translateY(-2px);
+        }
+
+        .scripture-nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #scriptureNavInfo {
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Scripture Cards */
+        .scripture-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .scripture-card:hover {
+            background: linear-gradient(135deg, #e9ecef, #dee2e6);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .scripture-card .card-title {
+            color: #4a90e2;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .scripture-reference {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .scripture-preview {
+            font-size: 0.85rem;
+            color: #555;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .scripture-card-category {
+            background: #4a90e2;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
         /* Crypto Wallet Section Styles */
         .crypto-wallet-section {
             margin-top: 40px;
@@ -1021,30 +1160,46 @@
         </header>
 
         <div class="tabs">
+            <button class="tab-button" data-tab="integral">Integral</button>
             <button class="tab-button active" data-tab="documentaries">Documentaries</button>
             <button class="tab-button" data-tab="documents">Documents</button>
             <button class="tab-button" data-tab="memes">Memes</button>
             <button class="tab-button" data-tab="music">Music Videos</button>
             <button class="tab-button" data-tab="books">Books</button>
             <button class="tab-button" data-tab="channels">Channels</button>
-            <button class="tab-button" data-tab="integral">Integral</button>
+            <button class="tab-button" data-tab="scriptures">Bible Scripture</button>
             <button class="tab-button" data-tab="about">About</button>
             <button class="tab-button" data-tab="donate">Donate</button>
             <button class="tab-button" data-tab="banner-generator">Banner Generator</button>
         </div>
 
-        <div class="controls">
-            <div class="search-sort">
-                <input type="text" id="searchInput" placeholder="Search by title...">
-                <select id="sortSelect">
-                    <option value="title">Sort by Title</option>
-                    <option value="duration">Sort by Duration</option>
-                </select>
-            </div>
+
+        <!-- Integral Tab -->
+        <div class="tab-content" id="integral">
+            <div class="grid" id="integralGrid"></div>
+            <div class="pagination" id="integralPagination"></div>
+            <footer class="footer-section">
+                <div class="footer-divider"></div>
+                <div class="footer-content">
+                    <p class="copyright">&copy; <span id="currentYear">2025</span> <span id="footerDomain">88888888.life</span> All rights reserved.</p>
+                    <p class="footer-powered">Created by <a href="https://troo.pro" target="_blank" class="footer-link">Troo</a></p>
+                </div>
+            </footer>
         </div>
 
         <!-- Documentaries Tab -->
         <div class="tab-content active" id="documentaries">
+            <div class="controls">
+                <div class="search-sort">
+                    <input type="text" id="documentariesSearch" placeholder="Search documentaries by title...">
+                    <select id="documentariesSort">
+                        <option value="title-asc">Sort by Title (A-Z)</option>
+                        <option value="title-desc">Sort by Title (Z-A)</option>
+                        <option value="duration-asc">Sort by Duration (Short-Long)</option>
+                        <option value="duration-desc">Sort by Duration (Long-Short)</option>
+                    </select>
+                </div>
+            </div>
             <div class="grid" id="documentariesGrid"></div>
             <div class="pagination" id="documentariesPagination"></div>
             <footer class="footer-section">
@@ -1058,6 +1213,15 @@
 
         <!-- Documents Tab -->
         <div class="tab-content" id="documents">
+            <div class="controls">
+                <div class="search-sort">
+                    <input type="text" id="documentsSearch" placeholder="Search documents by title...">
+                    <select id="documentsSort">
+                        <option value="title-asc">Sort by Title (A-Z)</option>
+                        <option value="title-desc">Sort by Title (Z-A)</option>
+                    </select>
+                </div>
+            </div>
             <div class="grid" id="documentsGrid"></div>
             <footer class="footer-section">
                 <div class="footer-divider"></div>
@@ -1070,6 +1234,15 @@
 
         <!-- Memes Tab -->
         <div class="tab-content" id="memes">
+            <div class="controls">
+                <div class="search-sort">
+                    <input type="text" id="memesSearch" placeholder="Search memes by text/description...">
+                    <select id="memesSort">
+                        <option value="alt-asc">Sort by Description (A-Z)</option>
+                        <option value="alt-desc">Sort by Description (Z-A)</option>
+                    </select>
+                </div>
+            </div>
             <div class="grid" id="memesGrid"></div>
             <footer class="footer-section">
                 <div class="footer-divider"></div>
@@ -1082,7 +1255,18 @@
 
         <!-- Music Videos Tab -->
         <div class="tab-content" id="music">
-            <div class="empty-state">Coming soon...</div>
+            <div class="controls">
+                <div class="search-sort">
+                    <input type="text" id="musicSearch" placeholder="Search music videos by title...">
+                    <select id="musicSort">
+                        <option value="title-asc">Sort by Title (A-Z)</option>
+                        <option value="title-desc">Sort by Title (Z-A)</option>
+                        <option value="duration-asc">Sort by Duration (Short-Long)</option>
+                        <option value="duration-desc">Sort by Duration (Long-Short)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid" id="musicGrid"></div>
             <footer class="footer-section">
                 <div class="footer-divider"></div>
                 <div class="footer-content">
@@ -1094,6 +1278,17 @@
 
         <!-- Books Tab -->
         <div class="tab-content" id="books">
+            <div class="controls">
+                <div class="search-sort">
+                    <input type="text" id="booksSearch" placeholder="Search books by title...">
+                    <select id="booksSort">
+                        <option value="title-asc">Sort by Title (A-Z)</option>
+                        <option value="title-desc">Sort by Title (Z-A)</option>
+                        <option value="author-asc">Sort by Author (A-Z)</option>
+                        <option value="author-desc">Sort by Author (Z-A)</option>
+                    </select>
+                </div>
+            </div>
             <div class="grid" id="booksGrid"></div>
             <footer class="footer-section">
                 <div class="footer-divider"></div>
@@ -1106,6 +1301,15 @@
 
         <!-- Channels Tab -->
         <div class="tab-content" id="channels">
+            <div class="controls">
+                <div class="search-sort">
+                    <input type="text" id="channelsSearch" placeholder="Search channels by title...">
+                    <select id="channelsSort">
+                        <option value="title-asc">Sort by Title (A-Z)</option>
+                        <option value="title-desc">Sort by Title (Z-A)</option>
+                    </select>
+                </div>
+            </div>
             <div class="grid" id="channelsGrid"></div>
             <footer class="footer-section">
                 <div class="footer-divider"></div>
@@ -1116,10 +1320,22 @@
             </footer>
         </div>
 
-        <!-- Integral Tab -->
-        <div class="tab-content" id="integral">
-            <div class="grid" id="integralGrid"></div>
-            <div class="pagination" id="integralPagination"></div>
+        <!-- Bible Scripture Tab -->
+        <div class="tab-content" id="scriptures">
+            <div class="controls">
+                <div class="search-sort">
+                    <input type="text" id="scripturesSearch" placeholder="Search scriptures by passage text...">
+                    <select id="scripturesSort">
+                        <option value="title-asc">Sort by Title (A-Z)</option>
+                        <option value="title-desc">Sort by Title (Z-A)</option>
+                        <option value="reference-asc">Sort by Reference (A-Z)</option>
+                        <option value="reference-desc">Sort by Reference (Z-A)</option>
+                        <option value="category-asc">Sort by Category (A-Z)</option>
+                        <option value="category-desc">Sort by Category (Z-A)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="grid" id="scripturesGrid"></div>
             <footer class="footer-section">
                 <div class="footer-divider"></div>
                 <div class="footer-content">
@@ -1288,7 +1504,7 @@
                 
                 <div class="control-group">
                     <label>Tagline:</label>
-                    <input type="text" id="taglineText" value="Flat Earth Truth & Documents" maxlength="30">
+                    <input type="text" id="taglineText" value="Explore Truth & Knowledge" maxlength="30">
                 </div>
                 
                 <div class="control-group">
@@ -1328,8 +1544,7 @@
             <div class="footer-divider"></div>
             <div class="footer-content">
                 <p class="copyright">&copy; <span id="currentYear">2025</span> <span id="footerDomain">88888888.life</span> All rights reserved.</p>
-                <p class="footer-powered">Created by <a href="https://alexgoretoy.com" target="_blank" class="footer-link">Alex Goretoy</a> a.k.a. <a href="https://troo.pro" target="_blank" class="footer-link">Troo</a></p>
-                <p class="footer-business">Let's do business? <a href="https://stunning.domains" target="_blank" class="footer-link">Stunning.Domains</a></p>
+                <p class="footer-powered">Created by <a href="https://troo.pro" target="_blank" class="footer-link">Troo</a></p>
             </div>
         </footer>
     </div>
@@ -1383,6 +1598,26 @@
             </div>
             <div class="pdf-viewer">
                 <canvas id="pdfCanvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripture Modal -->
+    <div class="modal" id="scriptureModal">
+        <button class="modal-close" id="scriptureModalClose">✕</button>
+        <div class="scripture-modal-content">
+            <div class="scripture-header">
+                <h2 id="scriptureTitle">Scripture Title</h2>
+                <p id="scriptureReference">Scripture Reference</p>
+                <span id="scriptureCategory" class="scripture-category">Category</span>
+            </div>
+            <div class="scripture-body">
+                <p id="scriptureText">Scripture text will appear here...</p>
+            </div>
+            <div class="scripture-footer">
+                <button id="scriptureNavPrev" class="scripture-nav-btn">← Previous</button>
+                <span id="scriptureNavInfo">1 of 20</span>
+                <button id="scriptureNavNext" class="scripture-nav-btn">Next →</button>
             </div>
         </div>
     </div>
@@ -1580,6 +1815,129 @@
                 publicUrl: "https://www.youtube.com/@alexandraromanova369",
                 archiveUrl: "",
                 src: "archives/channels/alexandraromanova369.jpg"
+            }
+        ];
+
+        const scripturesData = [
+            {
+                title: "Genesis 1:6-8 - The Firmament",
+                reference: "Genesis 1:6-8 (KJV)",
+                text: "And God said, Let there be a firmament in the midst of the waters, and let it divide the waters from the waters. And God made the firmament, and divided the waters which were under the firmament from the waters which were above the firmament: and it was so. And God called the firmament Heaven. And the evening and the morning were the second day.",
+                category: "Creation"
+            },
+            {
+                title: "Job 26:7 - Earth Hangs Upon Nothing",
+                reference: "Job 26:7 (KJV)",
+                text: "He stretcheth out the north over the empty place, and hangeth the earth upon nothing.",
+                category: "Earth's Foundation"
+            },
+            {
+                title: "Isaiah 40:22 - Circle of the Earth",
+                reference: "Isaiah 40:22 (KJV)",
+                text: "It is he that sitteth upon the circle of the earth, and the inhabitants thereof are as grasshoppers; that stretcheth out the heavens as a curtain, and spreadeth them out as a tent to dwell in:",
+                category: "Earth's Shape"
+            },
+            {
+                title: "Psalm 104:5 - Earth's Foundation",
+                reference: "Psalm 104:5 (KJV)",
+                text: "Who laid the foundations of the earth, that it should not be removed for ever.",
+                category: "Earth's Foundation"
+            },
+            {
+                title: "1 Chronicles 16:30 - Earth Shall Not Be Moved",
+                reference: "1 Chronicles 16:30 (KJV)",
+                text: "Fear before him, all the earth: the world also shall be stable, that it be not moved.",
+                category: "Earth's Foundation"
+            },
+            {
+                title: "Psalm 93:1 - The World Is Established",
+                reference: "Psalm 93:1 (KJV)",
+                text: "The Lord reigneth, he is clothed with majesty; the Lord is clothed with strength, wherewith he hath girded himself: the world also is stablished, that it cannot be moved.",
+                category: "Earth's Foundation"
+            },
+            {
+                title: "Joshua 10:12-13 - Sun Stand Still",
+                reference: "Joshua 10:12-13 (KJV)",
+                text: "Then spake Joshua to the Lord in the day when the Lord delivered up the Amorites before the children of Israel, and he said in the sight of Israel, Sun, stand thou still upon Gibeon; and thou, Moon, in the valley of Ajalon. And the sun stood still, and the moon stayed, until the people had avenged themselves upon their enemies. Is not this written in the book of Jasher? So the sun stood still in the midst of heaven, and hasted not to go down about a whole day.",
+                category: "Sun and Moon"
+            },
+            {
+                title: "Ecclesiastes 1:5 - The Sun Also Rises",
+                reference: "Ecclesiastes 1:5 (KJV)",
+                text: "The sun also ariseth, and the sun goeth down, and hasteth to his place where he arose.",
+                category: "Sun and Moon"
+            },
+            {
+                title: "Daniel 4:10-11 - Tree Visible to All Earth",
+                reference: "Daniel 4:10-11 (KJV)",
+                text: "Thus were the visions of mine head in my bed; I saw, and behold a tree in the midst of the earth, and the height thereof was great. The tree grew, and was strong, and the height thereof reached unto heaven, and the sight thereof to the end of all the earth:",
+                category: "Earth's Shape"
+            },
+            {
+                title: "Matthew 4:8 - High Mountain Shows All Kingdoms",
+                reference: "Matthew 4:8 (KJV)",
+                text: "Again, the devil taketh him up into an exceeding high mountain, and sheweth him all the kingdoms of the world, and the glory of them;",
+                category: "Earth's Shape"
+            },
+            {
+                title: "Revelation 7:1 - Four Corners of the Earth",
+                reference: "Revelation 7:1 (KJV)",
+                text: "And after these things I saw four angels standing on the four corners of the earth, holding the four winds of the earth, that the wind should not blow on the earth, nor on the sea, nor on any tree.",
+                category: "Earth's Shape"
+            },
+            {
+                title: "Job 38:13 - Earth Has Ends",
+                reference: "Job 38:13 (KJV)",
+                text: "That it might take hold of the ends of the earth, that the wicked might be shaken out of it?",
+                category: "Earth's Shape"
+            },
+            {
+                title: "Isaiah 11:12 - Four Corners of the Earth",
+                reference: "Isaiah 11:12 (KJV)",
+                text: "And he shall set up an ensign for the nations, and shall assemble the outcasts of Israel, and gather together the dispersed of Judah from the four corners of the earth.",
+                category: "Earth's Shape"
+            },
+            {
+                title: "Genesis 7:11 - Fountains of the Great Deep",
+                reference: "Genesis 7:11 (KJV)",
+                text: "In the six hundredth year of Noah's life, in the second month, the seventeenth day of the month, the same day were all the fountains of the great deep broken up, and the windows of heaven were opened.",
+                category: "Waters Above and Below"
+            },
+            {
+                title: "Genesis 8:2 - Windows of Heaven",
+                reference: "Genesis 8:2 (KJV)",
+                text: "The fountains also of the deep and the windows of heaven were stopped, and the rain from heaven was restrained;",
+                category: "Waters Above and Below"
+            },
+            {
+                title: "Psalm 148:4 - Waters Above the Heavens",
+                reference: "Psalm 148:4 (KJV)",
+                text: "Praise him, ye heavens of heavens, and ye waters that be above the heavens.",
+                category: "Waters Above and Below"
+            },
+            {
+                title: "2 Peter 3:5 - Earth Standing Out of Water",
+                reference: "2 Peter 3:5 (KJV)",
+                text: "For this they willingly are ignorant of, that by the word of God the heavens were of old, and the earth standing out of the water and in the water:",
+                category: "Waters Above and Below"
+            },
+            {
+                title: "Job 22:14 - Heaven is a Circuit",
+                reference: "Job 22:14 (KJV)",
+                text: "Thick clouds are a covering to him, that he seeth not; and he walketh in the circuit of heaven.",
+                category: "Heaven's Structure"
+            },
+            {
+                title: "Psalm 19:1 - Firmament Shows God's Handiwork",
+                reference: "Psalm 19:1 (KJV)",
+                text: "The heavens declare the glory of God; and the firmament sheweth his handywork.",
+                category: "Creation"
+            },
+            {
+                title: "Ezekiel 1:22 - Firmament Like Crystal",
+                reference: "Ezekiel 1:22 (KJV)",
+                text: "And the likeness of the firmament upon the heads of the living creature was as the colour of the terrible crystal, stretched forth over their heads above.",
+                category: "Heaven's Structure"
             }
         ];
 
@@ -3701,6 +4059,24 @@
             },
         ];
 
+        const musicVideosData = [
+            {
+                title: "Flat Earth Song - The Beatles (Parody)",
+                duration: 3,
+                url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            },
+            {
+                title: "Earth is Flat - Music Video",
+                duration: 4,
+                url: "https://www.youtube.com/watch?v=example1"
+            },
+            {
+                title: "Firmament Blues",
+                duration: 5,
+                url: "https://www.youtube.com/watch?v=example2"
+            }
+        ];
+
         // Crypto wallet copy functionality
         function copyAddress(addressId, button) {
             const addressElement = document.getElementById(addressId);
@@ -3769,7 +4145,6 @@
         }
 
         const itemsPerPage = 32;
-        let filteredData = [...documentariesData];
         let currentMemeIndex = 0;
 
         function formatDuration(minutes) {
@@ -3782,7 +4157,7 @@
             const grid = document.getElementById('documentariesGrid');
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
-            const pageData = filteredData.slice(start, end);
+            const pageData = filteredDocumentariesData.slice(start, end);
 
             grid.innerHTML = pageData.map(doc => `
                 <div class="card">
@@ -3799,7 +4174,7 @@
         }
 
         function renderPagination() {
-            const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+            const totalPages = Math.ceil(filteredDocumentariesData.length / itemsPerPage);
             const pagination = document.getElementById('documentariesPagination');
             
             let html = '';
@@ -3826,7 +4201,7 @@
 
         function renderDocuments() {
             const grid = document.getElementById('documentsGrid');
-            grid.innerHTML = documentsData.map((doc, index) => `
+            grid.innerHTML = filteredDocumentsData.map((doc, index) => `
                 <div class="card document-card">
                     <div class="document-icon">📄</div>
                     <div class="document-info">
@@ -3842,7 +4217,7 @@
 
         function renderMemes() {
             const grid = document.getElementById('memesGrid');
-            grid.innerHTML = memesData.map((meme, index) => `
+            grid.innerHTML = filteredMemesData.map((meme, index) => `
                 <div class="card meme-card" onclick="openMemeModal(${index})">
                     <img class="meme-image" src="${meme.src}" alt="${meme.alt}">
                 </div>
@@ -3851,13 +4226,26 @@
 
         function renderBooks() {
             const grid = document.getElementById('booksGrid');
-            grid.innerHTML = booksData.map(book => `
+            grid.innerHTML = filteredBooksData.map(book => `
                 <div class="card">
                     <div class="card-title">${book.title}</div>
                     <div style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">by ${book.author}</div>
                     <div style="font-size: 0.85rem; color: #555; margin-bottom: 15px; line-height: 1.4;">${book.description}</div>
                     <div class="url-buttons">
                         <button class="url-button primary" onclick="window.open('${book.url}', '_blank')">📚 View Book</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderMusicVideos() {
+            const grid = document.getElementById('musicGrid');
+            grid.innerHTML = filteredMusicData.map(video => `
+                <div class="card">
+                    <div class="card-title">${video.title}</div>
+                    <span class="card-duration">${formatDuration(video.duration)}</span>
+                    <div class="url-buttons">
+                        <button class="url-button primary" onclick="window.open('${video.url}', '_blank')">🎵 Watch Video</button>
                     </div>
                 </div>
             `).join('');
@@ -3879,7 +4267,7 @@
 
         function renderChannels() {
             const grid = document.getElementById('channelsGrid');
-            grid.innerHTML = channelsData.map(channel => `
+            grid.innerHTML = filteredChannelsData.map(channel => `
                 <div class="card">
                     <div class="card-title">${channel.title}</div>
                     <div class="url-buttons">
@@ -3890,12 +4278,90 @@
             `).join('');
         }
 
+        function renderScriptures() {
+            const grid = document.getElementById('scripturesGrid');
+            grid.innerHTML = filteredScripturesData.map((scripture, index) => `
+                <div class="card scripture-card" onclick="openScriptureModal(${index})">
+                    <div class="card-title">${scripture.title}</div>
+                    <div class="scripture-reference">${scripture.reference}</div>
+                    <div class="scripture-preview">${scripture.text}</div>
+                    <div class="scripture-card-category">${scripture.category}</div>
+                </div>
+            `).join('');
+        }
+
+        // Scripture Modal Variables
+        let currentScriptureIndex = 0;
+
+        // Scripture Modal Functions
+        function openScriptureModal(index) {
+            // Find the actual scripture from the filtered data
+            const scripture = filteredScripturesData[index];
+            // Find the index in the original scripturesData array for navigation
+            currentScriptureIndex = scripturesData.findIndex(s => s.reference === scripture.reference);
+            
+            const modal = document.getElementById('scriptureModal');
+            
+            document.getElementById('scriptureTitle').textContent = scripture.title;
+            document.getElementById('scriptureReference').textContent = scripture.reference;
+            document.getElementById('scriptureCategory').textContent = scripture.category;
+            document.getElementById('scriptureText').textContent = scripture.text;
+            
+            updateScriptureNavigation();
+            modal.classList.add('active');
+        }
+
+        function closeScriptureModal() {
+            const modal = document.getElementById('scriptureModal');
+            modal.classList.remove('active');
+        }
+
+        function updateScriptureNavigation() {
+            const totalScriptures = scripturesData.length;
+            document.getElementById('scriptureNavInfo').textContent = `${currentScriptureIndex + 1} of ${totalScriptures}`;
+            
+            document.getElementById('scriptureNavPrev').disabled = currentScriptureIndex <= 0;
+            document.getElementById('scriptureNavNext').disabled = currentScriptureIndex >= totalScriptures - 1;
+        }
+
+        function prevScripture() {
+            if (currentScriptureIndex > 0) {
+                currentScriptureIndex--;
+                const scripture = scripturesData[currentScriptureIndex];
+                
+                document.getElementById('scriptureTitle').textContent = scripture.title;
+                document.getElementById('scriptureReference').textContent = scripture.reference;
+                document.getElementById('scriptureCategory').textContent = scripture.category;
+                document.getElementById('scriptureText').textContent = scripture.text;
+                
+                updateScriptureNavigation();
+            }
+        }
+
+        function nextScripture() {
+            if (currentScriptureIndex < scripturesData.length - 1) {
+                currentScriptureIndex++;
+                const scripture = scripturesData[currentScriptureIndex];
+                
+                document.getElementById('scriptureTitle').textContent = scripture.title;
+                document.getElementById('scriptureReference').textContent = scripture.reference;
+                document.getElementById('scriptureCategory').textContent = scripture.category;
+                document.getElementById('scriptureText').textContent = scripture.text;
+                
+                updateScriptureNavigation();
+            }
+        }
+
         function openMemeModal(index) {
-            currentMemeIndex = index;
+            // Find the actual meme from the filtered data
+            const meme = filteredMemesData[index];
+            // Find the index in the original memesData array for navigation
+            currentMemeIndex = memesData.findIndex(m => m.src === meme.src);
+            
             const modal = document.getElementById('memeModal');
             const modalImage = document.getElementById('modalImage');
-            modalImage.src = memesData[index].src;
-            modalImage.alt = memesData[index].alt;
+            modalImage.src = meme.src;
+            modalImage.alt = meme.alt;
             modal.classList.add('active');
         }
 
@@ -3914,7 +4380,7 @@
 
         // PDF Modal Functions
         function openPDFModal(docIndex) {
-            const doc = documentsData[docIndex];
+            const doc = filteredDocumentsData[docIndex];
             const modal = document.getElementById('pdfModal');
             const titleElement = document.getElementById('pdfTitle');
             
@@ -4153,6 +4619,11 @@
             }
         });
 
+        // Scripture Modal Event Listeners
+        document.getElementById('scriptureModalClose').addEventListener('click', closeScriptureModal);
+        document.getElementById('scriptureNavPrev').addEventListener('click', prevScripture);
+        document.getElementById('scriptureNavNext').addEventListener('click', nextScripture);
+
         // Close modal on background click
         document.getElementById('memeModal').addEventListener('click', function(e) {
             if (e.target === this) {
@@ -4165,11 +4636,18 @@
                 closePDFModal();
             }
         });
+        
+        document.getElementById('scriptureModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeScriptureModal();
+            }
+        });
 
         // Keyboard navigation for modal
         document.addEventListener('keydown', function(e) {
             const memeModal = document.getElementById('memeModal');
             const pdfModal = document.getElementById('pdfModal');
+            const scriptureModal = document.getElementById('scriptureModal');
             
             if (memeModal.classList.contains('active')) {
                 if (e.key === 'ArrowRight') nextMeme();
@@ -4183,6 +4661,12 @@
                 if (e.key === 'Escape') closePDFModal();
                 if (e.key === '=') zoomIn();
                 if (e.key === '-') zoomOut();
+            }
+            
+            if (scriptureModal.classList.contains('active')) {
+                if (e.key === 'ArrowRight') nextScripture();
+                if (e.key === 'ArrowLeft') prevScripture();
+                if (e.key === 'Escape') closeScriptureModal();
             }
         });
 
@@ -4198,23 +4682,158 @@
         });
 
         // Search and sort
-        document.getElementById('searchInput').addEventListener('input', function(e) {
-            const query = e.target.value.toLowerCase();
-            filteredData = documentariesData.filter(doc => 
-                doc.title.toLowerCase().includes(query)
-            );
+        // Search and Sort Variables for Each Tab
+        let filteredDocumentariesData = [...documentariesData];
+        let filteredDocumentsData = [...documentsData];
+        let filteredMemesData = [...memesData];
+        let filteredMusicData = [...musicVideosData];
+        let filteredBooksData = [...booksData];
+        let filteredChannelsData = [...channelsData];
+        let filteredScripturesData = [...scripturesData];
+
+        // Generic Search and Sort Functions
+        function performSearch(data, query, searchFields) {
+            if (!query) return data;
+            const lowerQuery = query.toLowerCase();
+            return data.filter(item => {
+                return searchFields.some(field => {
+                    const value = item[field];
+                    return value && value.toLowerCase().includes(lowerQuery);
+                });
+            });
+        }
+
+        function performSort(data, sortBy) {
+            const [field, direction] = sortBy.split('-');
+            return [...data].sort((a, b) => {
+                let aVal = a[field] || '';
+                let bVal = b[field] || '';
+                
+                // Handle numeric fields
+                if (field === 'duration') {
+                    aVal = Number(aVal) || 0;
+                    bVal = Number(bVal) || 0;
+                    return direction === 'asc' ? aVal - bVal : bVal - aVal;
+                }
+                
+                // Handle string fields
+                if (typeof aVal === 'string') aVal = aVal.toLowerCase();
+                if (typeof bVal === 'string') bVal = bVal.toLowerCase();
+                
+                if (direction === 'asc') {
+                    return aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+                } else {
+                    return aVal > bVal ? -1 : aVal < bVal ? 1 : 0;
+                }
+            });
+        }
+
+        // Documentaries Search and Sort
+        function searchAndSortDocumentaries() {
+            const query = document.getElementById('documentariesSearch').value;
+            const sortBy = document.getElementById('documentariesSort').value;
+            
+            let filtered = performSearch(documentariesData, query, ['title']);
+            filtered = performSort(filtered, sortBy);
+            
+            filteredDocumentariesData = filtered;
             currentPage = 1;
             renderDocumentaries();
-        });
+        }
 
-        document.getElementById('sortSelect').addEventListener('change', function(e) {
-            if (e.target.value === 'title') {
-                filteredData.sort((a, b) => a.title.localeCompare(b.title));
-            } else {
-                filteredData.sort((a, b) => a.duration - b.duration);
-            }
-            renderDocumentaries();
-        });
+        // Documents Search and Sort
+        function searchAndSortDocuments() {
+            const query = document.getElementById('documentsSearch').value;
+            const sortBy = document.getElementById('documentsSort').value;
+            
+            let filtered = performSearch(documentsData, query, ['title']);
+            filtered = performSort(filtered, sortBy);
+            
+            filteredDocumentsData = filtered;
+            renderDocuments();
+        }
+
+        // Memes Search and Sort
+        function searchAndSortMemes() {
+            const query = document.getElementById('memesSearch').value;
+            const sortBy = document.getElementById('memesSort').value;
+            
+            let filtered = performSearch(memesData, query, ['alt']);
+            filtered = performSort(filtered, sortBy);
+            
+            filteredMemesData = filtered;
+            renderMemes();
+        }
+
+        // Music Search and Sort
+        function searchAndSortMusic() {
+            const query = document.getElementById('musicSearch').value;
+            const sortBy = document.getElementById('musicSort').value;
+            
+            let filtered = performSearch(musicVideosData, query, ['title']);
+            filtered = performSort(filtered, sortBy);
+            
+            filteredMusicData = filtered;
+            renderMusicVideos();
+        }
+
+        // Books Search and Sort
+        function searchAndSortBooks() {
+            const query = document.getElementById('booksSearch').value;
+            const sortBy = document.getElementById('booksSort').value;
+            
+            let filtered = performSearch(booksData, query, ['title']);
+            filtered = performSort(filtered, sortBy);
+            
+            filteredBooksData = filtered;
+            renderBooks();
+        }
+
+        // Channels Search and Sort
+        function searchAndSortChannels() {
+            const query = document.getElementById('channelsSearch').value;
+            const sortBy = document.getElementById('channelsSort').value;
+            
+            let filtered = performSearch(channelsData, query, ['title']);
+            filtered = performSort(filtered, sortBy);
+            
+            filteredChannelsData = filtered;
+            renderChannels();
+        }
+
+        // Scriptures Search and Sort
+        function searchAndSortScriptures() {
+            const query = document.getElementById('scripturesSearch').value;
+            const sortBy = document.getElementById('scripturesSort').value;
+            
+            let filtered = performSearch(scripturesData, query, ['title', 'text', 'reference']);
+            filtered = performSort(filtered, sortBy);
+            
+            filteredScripturesData = filtered;
+            renderScriptures();
+        }
+
+        // Event Listeners for Search and Sort
+        document.getElementById('documentariesSearch').addEventListener('input', searchAndSortDocumentaries);
+        document.getElementById('documentariesSort').addEventListener('change', searchAndSortDocumentaries);
+        
+        document.getElementById('documentsSearch').addEventListener('input', searchAndSortDocuments);
+        document.getElementById('documentsSort').addEventListener('change', searchAndSortDocuments);
+        
+        document.getElementById('memesSearch').addEventListener('input', searchAndSortMemes);
+        document.getElementById('memesSort').addEventListener('change', searchAndSortMemes);
+        
+        document.getElementById('musicSearch').addEventListener('input', searchAndSortMusic);
+        document.getElementById('musicSort').addEventListener('change', searchAndSortMusic);
+        
+        document.getElementById('booksSearch').addEventListener('input', searchAndSortBooks);
+        document.getElementById('booksSort').addEventListener('change', searchAndSortBooks);
+        
+        document.getElementById('channelsSearch').addEventListener('input', searchAndSortChannels);
+        document.getElementById('channelsSort').addEventListener('change', searchAndSortChannels);
+        
+        document.getElementById('scripturesSearch').addEventListener('input', searchAndSortScriptures);
+        document.getElementById('scripturesSort').addEventListener('change', searchAndSortScriptures);
 
         // Banner Generator Functions
         function generateBanner() {
@@ -4349,8 +4968,10 @@
         renderIntegral();
         renderDocuments();
         renderMemes();
+        renderMusicVideos();
         renderBooks();
         renderChannels();
+        renderScriptures();
         
         // Generate initial banner
         setTimeout(() => {
