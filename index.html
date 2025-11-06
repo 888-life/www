@@ -409,7 +409,7 @@
         /* Limit grid to maximum 4 columns */
         @media (min-width: 1200px) {
             .grid {
-                grid-template-columns: repeat(4, 1fr);
+                /* grid-template-columns: repeat(4, 1fr); */
                 /* max-width: 1200px; */
                 margin-left: auto;
                 margin-right: auto;
@@ -429,6 +429,11 @@
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .card-thumb {
+            width: 101%;
+            margin-left: -18px;
         }
 
         .card-title {
@@ -3099,6 +3104,18 @@
 
         const integralData = [
             {
+                title: "EXPOSING THE EVIL JEWISH BABYLONIAN TALMUD....",
+                publicUrl: "https://www.youtube.com/watch?v=q6Kn2ASOPZA",
+                archiveUrl: "",
+                duration: 28
+            },
+            {
+                title: "What The Talmud Says About Jesus, Christians and Others is SHOCKING",
+                publicUrl: "https://www.youtube-nocookie.com/embed/G7kLZ6saR6c",
+                archiveUrl: "",
+                duration: 12
+            },
+            {
                 title: "ODD TV Presents PHARMAKEIA (Part One): YouTube Edition",
                 publicUrl: "https://www.youtube-nocookie.com/embed/wKNnezELbfs",
                 archiveUrl: "",
@@ -3146,10 +3163,15 @@
                 archiveUrl: "",
                 duration: 34
             }
-
         ];
 
         const channelsData = [
+            {
+                title: "A Call for Common Sense",
+                publicUrl: "https://www.youtube.com/@CallforSense",
+                archiveUrl: "",
+                src: "archives/channels/CallforSense.jpg"
+            },
             {
                 title: "Is the Bible from Heaven? Is the Earth a Globe?",
                 publicUrl: "https://www.youtube.com/@AlexGleasonFlatEarthMap",
@@ -6031,42 +6053,42 @@
                 title: "200 Proofs Earth is Not a Spinning Ball",
                 author: "Eric Dubay",
                 description: "A comprehensive collection of proofs demonstrating the fallacies in the heliocentric theory.",
-                url: "https://amzn.to/4oQwjQQ",
+                publicUrl: "https://amzn.to/4oQwjQQ",
                 cover: "archives/books/51BGl52V0sL.jpg"
             },
             {
                 title: "The Flat-Earth Conspiracy",
                 author: "Eric Dubay", 
                 description: "An exposé of the greatest deception in human history.",
-                url: "https://amzn.to/43b5pLd",
+                publicUrl: "https://amzn.to/43b5pLd",
                 cover: "archives/books/61vOKu1a2GL._SY522_.jpg"
             },
             {
                 title: "Zetetic Astronomy: Earth Not a Globe",
                 author: "Samuel Birley Rowbotham",
                 description: "The original flat earth research from the 19th century.",
-                url: "https://amzn.to/3WzMvKj",
+                publicUrl: "https://amzn.to/3WzMvKj",
                 cover: "archives/books/71x3XayK09S._SY522_.jpg"
             },
             {
                 title: "The Greatest Lie on Earth: Proof That Our World Is Not a Moving Globe",
                 author: "Edward Hendrie",
                 description: "Biblical and scientific evidence against the globe earth model.",
-                url: "https://amzn.to/492dlSC",
+                publicUrl: "https://amzn.to/492dlSC",
                 cover: "archives/books/71vbwwxfx3L._SY522_.jpg"
             },
             {
                 title: "100 Proofs That Earth Is Not A Globe: 2017 Updated Edition",
                 author: "William WM Carpenter",
                 description: "A Flat Earth Theorist, He Aimed To Educate Others About Why He Thought the Earth Was Flat Instead Of A Globe.This 2017 Edition Is Updated With Facebook and Website Resources.",
-                url: "https://amzn.to/3XcbYJO",
+                publicUrl: "https://amzn.to/3XcbYJO",
                 cover: "archives/books/71Ve+Xunl-L._SY522_.jpg"
             },
             {
                 title: "The Doctrine of the Shape of the Earth: A Comprehensive Biblical Perspective",
                 author: "Nathan Roberts",
                 description: "Do you trust God's Word to be Faithful and True? Have you ever considered what the authors of the Bible, who were inspired by God, wrote about regarding the shape of the Earth?",
-                url: "https://amzn.to/3JL7ozb",
+                publicUrl: "https://amzn.to/3JL7ozb",
                 cover: "archives/books/61plfE-13UL._SY522_.jpg"
             },
         ];
@@ -6075,35 +6097,35 @@
             {
                 title: "O.D.D TV | LEVEL (2021) RAP SONG",
                 artist: "ODD TV",
-                url: "https://www.youtube-nocookie.com/embed/Oft4WPOuadA",
+                publicUrl: "https://www.youtube-nocookie.com/embed/Oft4WPOuadA",
                 duration: 5,
                 genre: "Truth Music"
             },
             {
                 title: "O.D.D TV | Right 2 Remain Ignorant (feat. Steve Grant)",
                 artist: "ODD TV",
-                url: "https://www.youtube-nocookie.com/embed/wXtRp6xyPWk",
+                publicUrl: "https://www.youtube-nocookie.com/embed/wXtRp6xyPWk",
                 duration: 4,
                 genre: "Truth Music"
             },
             {
                 title: "Twilight Zone (Song) O.D.D TV feat Optimiztiq",
                 artist: "ODD TV",
-                url: "https://www.youtube-nocookie.com/embed/nxbWPkEaFEM",
+                publicUrl: "https://www.youtube-nocookie.com/embed/nxbWPkEaFEM",
                 duration: 4,
                 genre: "Truth Music"
             },
             {
                 title: "ODD TV | Cartoon Ball (Official Music Video) | Flat Earth ▶️️",
                 artist: "ODD TV",
-                url: "https://www.youtube-nocookie.com/embed/QpXSQDVqzsA",
+                publicUrl: "https://www.youtube-nocookie.com/embed/QpXSQDVqzsA",
                 duration: 3,
                 genre: "Truth Music"
             },
             {
                 title: "Dear NASA, Why Are You Lying? Anti NASA Song ▶️️",
                 artist: "ODD TV",
-                url: "https://www.youtube-nocookie.com/embed/LYIRoGB3pUU",
+                publicUrl: "https://www.youtube-nocookie.com/embed/LYIRoGB3pUU",
                 duration: 4,
                 genre: "Truth Music"
             }
@@ -6112,25 +6134,25 @@
         const playlistsData = [
             {
                 title: "Magnetism Lecture Ken Wheeler",
-                url: "https://www.youtube.com/playlist?list=PLjz0SgxcrlEZjqIdwB0uncEUACJrYa5CG",
+                publicUrl: "https://www.youtube.com/playlist?list=PLjz0SgxcrlEZjqIdwB0uncEUACJrYa5CG",
                 videoCount: 7,
                 category: "Magnetism"
             },
             {
                 title: "As Seen on TV",
-                url: "https://www.youtube.com/playlist?list=PLm6Vq0bTTCDiUUKIY6YdqNeHhu4s4MvX5",
+                publicUrl: "https://www.youtube.com/playlist?list=PLm6Vq0bTTCDiUUKIY6YdqNeHhu4s4MvX5",
                 videoCount: 3,
                 category: "Hollywood"
             },
             {
                 title: "Best Flat Earth Documentaries",
-                url: "https://www.youtube.com/playlist?list=PL9JK-HA6DrRE4mbAoCuOHkJfZJirqV0I-",
+                publicUrl: "https://www.youtube.com/playlist?list=PL9JK-HA6DrRE4mbAoCuOHkJfZJirqV0I-",
                 videoCount: 32,
                 category: "Biblical"
             },
             {
                 title: "NASA Conspiracy",
-                url: "https://www.youtube.com/playlist?list=PLm6Vq0bTTCDiPIX2ItdQTQGX7mXQXBxoV",
+                publicUrl: "https://www.youtube.com/playlist?list=PLm6Vq0bTTCDiPIX2ItdQTQGX7mXQXBxoV",
                 videoCount: 6,
                 category: "NASA"
             }
@@ -6212,6 +6234,12 @@
             return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
         }
 
+        function youtubeId(url){
+            var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+            var match = url ? url.match(regExp) : '';
+            return (match&&match[7].length==11)? match[7] : false;
+        }
+
         function renderDocumentaries() {
             const grid = document.getElementById('documentariesGrid');
             const start = (currentPage - 1) * itemsPerPage;
@@ -6220,6 +6248,7 @@
 
             grid.innerHTML = pageData.map((doc, index) => `
                 <div class="card">
+                    <div class="card-thumb">${doc.publicUrl === '' ? '' : `<img src="https://img.youtube.com/vi/${youtubeId(doc.publicUrl)}/mqdefault.jpg" alt="" title="" />`}</div>
                     <div class="card-title">${doc.title}</div>
                     <span class="card-duration">${formatDuration(doc.duration)}</span>
                     <div class="url-buttons">
@@ -6305,6 +6334,7 @@
             const grid = document.getElementById('musicGrid');
             grid.innerHTML = filteredMusicData.map((video, index) => `
                 <div class="card">
+                    <div class="card-thumb">${video.publicUrl === '' ? '' : `<img src="https://img.youtube.com/vi/${youtubeId(video.publicUrl)}/mqdefault.jpg" alt="" title="" />`}</div>
                     <div class="card-title">${video.title}</div>
                     <span class="card-duration">${formatDuration(video.duration)}</span>
                     <div class="url-buttons">
@@ -6319,6 +6349,7 @@
             const grid = document.getElementById('integralGrid');
             grid.innerHTML = filteredIntegralData.map((integral, index) => `
                 <div class="card">
+                    <div class="card-thumb">${integral.publicUrl === '' ? '' : `<img src="https://img.youtube.com/vi/${youtubeId(integral.publicUrl)}/mqdefault.jpg" alt="" title="" />`}</div>
                     <div class="card-title">${integral.title}</div>
                     <span class="card-duration">${formatDuration(integral.duration)}</span>
                     <div class="url-buttons">
@@ -7874,7 +7905,7 @@
                 reference: item.reference || '',
                 src: item.src || '',
                 author: item.author || '',
-                url: item.url || ''
+                publicUrl: item.publicUrl || ''
             };
             
             return `
