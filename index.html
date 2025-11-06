@@ -6884,7 +6884,7 @@
                     <div style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">by ${book.author}</div>
                     <div style="font-size: 0.85rem; color: #555; margin-bottom: 15px; line-height: 1.4;">${book.description}</div>
                     <div class="url-buttons">
-                        <button class="url-button primary" onclick="trackExternalLink('books', '${book.url}', '${book.title.replace(/'/g, '\'')}'); window.open('${book.url}', '_blank')">📚 View Book</button>
+                        <button class="url-button primary" onclick="trackExternalLink('books', '${book.publicUrl}', '${book.title.replace(/'/g, '\'')}'); window.open('${book.publicUrl}', '_blank')">📚 View Book</button>
                     </div>
                     ${generateActionButtons('books', book, index)}
                 </div>
