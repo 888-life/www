@@ -6915,7 +6915,7 @@
             const grid = document.getElementById('integralGrid');
             grid.innerHTML = filteredIntegralData.map((integral, index) => `
                 <div class="card">
-                    <div class="card-thumb">${integral.publicUrl === '' ? '' : `<img src="https://img.youtube.com/vi/${youtubeId(integral.publicUrl)}/mqdefault.jpg" alt="" title="" />`}</div>
+                    <div class="card-thumb">${integral.publicUrl === '' ? '' : `<img src="https://img.youtube.com/vi/${youtubeId(integral.publicUrl)}/mqdefault.jpg" alt="" title="" onclick="playVideo('${integral.publicUrl}', '${integral.title.replace(/'/g, "\\'")}')" />`}</div>
                     <div class="card-title">${integral.title}</div>
                     <span class="card-duration">${formatDuration(integral.duration)}</span>
                     <div class="url-buttons">
