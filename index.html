@@ -575,6 +575,58 @@
             margin-bottom: 20px;
         }
 
+        .video-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+
+        .playback-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .playback-option {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .playback-option:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.4);
+            transform: translateY(-1px);
+        }
+
+        .playback-option.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .playback-option.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .archive-player {
+            width: 100%;
+            background: #000;
+            border-radius: 10px;
+            min-height: 400px;
+        }
+
         .chunk-info {
             display: flex;
             justify-content: center;
@@ -3111,9 +3163,20 @@
             <span id="toggleIcon">▲</span>
         </div>
         <div class="accordion-content" id="accordionContent">
+            <div class="video-controls">
+                <div class="playback-selector">
+                    <button id="youtubePlayBtn" class="playback-option active">
+                        📺 YouTube
+                    </button>
+                    <button id="archivePlayBtn" class="playback-option">
+                        💾 Archive
+                    </button>
+                </div>
+                <button class="close-player" id="closePlayer">✕ Close</button>
+            </div>
             <div class="video-player-container">
                 <iframe id="videoPlayer" class="video-player" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                <button class="close-player" id="closePlayer">Close Player</button>
+                <div id="archivePlayer" class="archive-player" style="display: none;"></div>
             </div>
         </div>
     </div>
@@ -4170,21 +4233,253 @@
             }
         }
 
-        function showPlayer(videoData, isArchive = false) {
+        // Current video data for player
+        let currentVideoData = null;
+        let currentPlaybackMode = 'youtube'; // 'youtube' or 'archive'
+
+        function showPlayer(videoData, forceArchive = false) {
             try {
                 const { title, publicUrl, archiveUrl } = videoData;
-
-                if (isArchive && archiveUrl) {
-                    return playChunkedVideo(archiveUrl, title);
+                
+                // Store current video data
+                currentVideoData = videoData;
+                
+                // Open the accordion
+                const accordion = document.getElementById('videoAccordion');
+                const container = document.querySelector('.container');
+                const playerTitle = document.getElementById('playerTitle');
+                
+                if (!accordion) {
+                    throw new Error('Video accordion not found');
+                }
+                
+                playerTitle.textContent = title;
+                accordion.classList.add('open');
+                container.classList.add('accordion-open');
+                
+                // Update playback option buttons
+                updatePlaybackOptions(videoData);
+                
+                // Auto-select based on availability or user preference
+                if (forceArchive && archiveUrl) {
+                    currentPlaybackMode = 'archive';
+                    playArchiveVideo();
                 } else if (publicUrl) {
-                    return playVideo(publicUrl, title);
+                    currentPlaybackMode = 'youtube';
+                    playYouTubeVideo();
+                } else if (archiveUrl) {
+                    currentPlaybackMode = 'archive';
+                    playArchiveVideo();
                 } else {
                     throw new Error('No valid video URL provided');
                 }
+                
+                // Setup event listeners for playback switches
+                setupPlaybackSwitchers();
+                
+                setTimeout(() => {
+                    accordion.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+                
+                return true;
             } catch (error) {
                 console.error('Error showing player:', error);
                 ErrorHandler.handleVideoError(error, 'showing video player');
                 return false;
+            }
+        }
+
+        function updatePlaybackOptions(videoData) {
+            const youtubeBtn = document.getElementById('youtubePlayBtn');
+            const archiveBtn = document.getElementById('archivePlayBtn');
+            
+            // Update YouTube button
+            if (videoData.publicUrl) {
+                youtubeBtn.classList.remove('disabled');
+                youtubeBtn.disabled = false;
+                youtubeBtn.title = 'Play from YouTube';
+            } else {
+                youtubeBtn.classList.add('disabled');
+                youtubeBtn.disabled = true;
+                youtubeBtn.title = 'YouTube source not available';
+            }
+            
+            // Update Archive button
+            if (videoData.archiveUrl) {
+                archiveBtn.classList.remove('disabled');
+                archiveBtn.disabled = false;
+                archiveBtn.title = 'Play from local archive';
+            } else {
+                archiveBtn.classList.add('disabled');
+                archiveBtn.disabled = true;
+                archiveBtn.title = 'Archive not available';
+            }
+        }
+
+        function setupPlaybackSwitchers() {
+            const youtubeBtn = document.getElementById('youtubePlayBtn');
+            const archiveBtn = document.getElementById('archivePlayBtn');
+            
+            // Remove existing listeners
+            youtubeBtn.replaceWith(youtubeBtn.cloneNode(true));
+            archiveBtn.replaceWith(archiveBtn.cloneNode(true));
+            
+            // Get new references
+            const newYoutubeBtn = document.getElementById('youtubePlayBtn');
+            const newArchiveBtn = document.getElementById('archivePlayBtn');
+            
+            newYoutubeBtn.addEventListener('click', () => {
+                if (!newYoutubeBtn.disabled && currentVideoData?.publicUrl) {
+                    switchToYouTube();
+                }
+            });
+            
+            newArchiveBtn.addEventListener('click', () => {
+                if (!newArchiveBtn.disabled && currentVideoData?.archiveUrl) {
+                    switchToArchive();
+                }
+            });
+        }
+
+        function switchToYouTube() {
+            if (!currentVideoData?.publicUrl) return;
+            
+            currentPlaybackMode = 'youtube';
+            
+            // Update button states
+            document.getElementById('youtubePlayBtn').classList.add('active');
+            document.getElementById('archivePlayBtn').classList.remove('active');
+            
+            playYouTubeVideo();
+        }
+
+        function switchToArchive() {
+            if (!currentVideoData?.archiveUrl) return;
+            
+            currentPlaybackMode = 'archive';
+            
+            // Update button states
+            document.getElementById('youtubePlayBtn').classList.remove('active');
+            document.getElementById('archivePlayBtn').classList.add('active');
+            
+            playArchiveVideo();
+        }
+
+        function playYouTubeVideo() {
+            if (!currentVideoData?.publicUrl) return;
+            
+            const iframe = document.getElementById('videoPlayer');
+            const archivePlayer = document.getElementById('archivePlayer');
+            
+            // Show iframe, hide archive player
+            iframe.style.display = 'block';
+            archivePlayer.style.display = 'none';
+            
+            // Set YouTube URL
+            iframe.src = currentVideoData.publicUrl;
+            
+            // Record video view
+            ViewingStats.recordVideoView(currentVideoData.publicUrl, currentVideoData.title);
+        }
+
+        function playArchiveVideo() {
+            if (!currentVideoData?.archiveUrl) return;
+            
+            const iframe = document.getElementById('videoPlayer');
+            const archivePlayer = document.getElementById('archivePlayer');
+            
+            // Hide iframe, show archive player
+            iframe.style.display = 'none';
+            archivePlayer.style.display = 'block';
+            
+            // Clear iframe src to stop YouTube
+            iframe.src = '';
+            
+            // Load chunked video in archive player
+            playChunkedVideoInContainer(currentVideoData.archiveUrl, currentVideoData.title, archivePlayer);
+        }
+
+        async function playChunkedVideoInContainer(manifestUrl, title, container) {
+            try {
+                // Load manifest from GitHub
+                const response = await fetch(manifestUrl);
+                if (!response.ok) {
+                    throw new Error(`Failed to load manifest: ${response.status}`);
+                }
+                
+                const manifest = await response.json();
+                const chunks = manifest.chunks || [];
+                
+                if (chunks.length === 0) {
+                    ErrorHandler.handleVideoError(new Error('No chunks found in manifest'), 'loading chunked video');
+                    return;
+                }
+                
+                // Create enhanced video player HTML in the container
+                let currentChunk = 0;
+                
+                const createChunkedPlayer = () => {
+                    const baseUrl = manifestUrl.substring(0, manifestUrl.lastIndexOf('/') + 1);
+                    const currentChunkUrl = `${baseUrl}${chunks[currentChunk].filename}`;
+                    
+                    container.innerHTML = `
+                        <div class="enhanced-video-player">
+                            <video 
+                                id="chunkedVideoPlayer" 
+                                class="video-player" 
+                                controls 
+                                autoplay
+                                src="${currentChunkUrl}"
+                            ></video>
+                            <div class="chunk-info">
+                                <button onclick="previousChunk()" ${currentChunk === 0 ? 'disabled' : ''}>⟨ Previous</button>
+                                <span>Part ${currentChunk + 1} of ${chunks.length}</span>
+                                <button onclick="nextChunk()" ${currentChunk === chunks.length - 1 ? 'disabled' : ''}>Next ⟩</button>
+                            </div>
+                        </div>
+                    `;
+                };
+                
+                // Global functions for chunk navigation
+                window.nextChunk = () => {
+                    if (currentChunk < chunks.length - 1) {
+                        currentChunk++;
+                        createChunkedPlayer();
+                    }
+                };
+                
+                window.previousChunk = () => {
+                    if (currentChunk > 0) {
+                        currentChunk--;
+                        createChunkedPlayer();
+                    }
+                };
+                
+                // Initial render
+                createChunkedPlayer();
+                
+                // Auto-advance to next chunk when current chunk ends
+                setTimeout(() => {
+                    const videoElement = document.getElementById('chunkedVideoPlayer');
+                    if (videoElement) {
+                        videoElement.addEventListener('ended', () => {
+                            if (currentChunk < chunks.length - 1) {
+                                window.nextChunk();
+                            }
+                        });
+                    }
+                }, 100);
+                
+                // Record video view
+                ViewingStats.recordVideoView(manifestUrl, title);
+                
+            } catch (error) {
+                ErrorHandler.handleVideoError(error, 'loading chunked video in container');
+                container.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: center; height: 200px; color: white;">
+                        <p>Error loading archive video: ${error.message}</p>
+                    </div>
+                `;
             }
         }
 
@@ -8953,42 +9248,35 @@
             document.getElementById('toggleIcon').textContent = accordion.classList.contains('open') ? '▼ ∞∞∞∞∞∞∞∞' : '▲ 88888888.LIFE';
         });
 
-        document.getElementById('closePlayer').addEventListener('click', function() {
+        function closeVideoPlayer() {
             const accordion = document.getElementById('videoAccordion');
             const container = document.querySelector('.container');
-            const accordionContent = document.getElementById('accordionContent');
+            const iframe = document.getElementById('videoPlayer');
+            const archivePlayer = document.getElementById('archivePlayer');
             
-            // Restore original iframe structure with proper allow attributes
-            accordionContent.innerHTML = `
-                <div class="video-player-container">
-                    <iframe id="videoPlayer" class="video-player" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                    <button class="close-player" id="closePlayer">Close Player</button>
-                </div>
-            `;
+            // Stop all playback
+            if (iframe) {
+                iframe.src = '';
+            }
+            if (archivePlayer) {
+                archivePlayer.innerHTML = '';
+            }
             
+            // Reset states
+            currentVideoData = null;
+            currentPlaybackMode = 'youtube';
+            
+            // Close accordion
             accordion.classList.remove('open');
             container.classList.remove('accordion-open');
             document.getElementById('playerTitle').textContent = 'Select a video to play';
             
-            // Re-attach close button event listener
-            document.getElementById('closePlayer').addEventListener('click', function() {
-                const accordion = document.getElementById('videoAccordion');
-                const container = document.querySelector('.container');
-                const accordionContent = document.getElementById('accordionContent');
-                
-                // Restore original iframe structure with proper allow attributes
-                accordionContent.innerHTML = `
-                    <div class="video-player-container">
-                        <iframe id="videoPlayer" class="video-player" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                        <button class="close-player" id="closePlayer">Close Player</button>
-                    </div>
-                `;
-                
-                accordion.classList.remove('open');
-                container.classList.remove('accordion-open');
-                document.getElementById('playerTitle').textContent = 'Select a video to play';
-            });
-        });
+            // Reset button states
+            document.getElementById('youtubePlayBtn').classList.add('active');
+            document.getElementById('archivePlayBtn').classList.remove('active');
+        }
+
+        document.getElementById('closePlayer').addEventListener('click', closeVideoPlayer);
 
         // Modal controls
         document.getElementById('modalClose').addEventListener('click', closeMemeModal);
