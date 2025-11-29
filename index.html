@@ -4025,6 +4025,46 @@
             }
         }
 
+        // Enhanced Error Handling System
+        class ErrorHandler {
+            static showUserError(message, type = 'error') {
+                this.hideAllErrors();
+                const errorDiv = document.createElement('div');
+                errorDiv.className = `user-error user-error-${type}`;
+                errorDiv.innerHTML = `
+                    <div class="error-content">
+                        <span class="error-icon">${type === 'error' ? '⚠️' : type === 'success' ? '✅' : 'ℹ️'}</span>
+                        <span class="error-message">${message}</span>
+                        <button class="error-close" onclick="this.parentElement.parentElement.remove()">✕</button>
+                    </div>
+                `;
+                document.body.appendChild(errorDiv);
+                setTimeout(() => errorDiv.remove(), 5000);
+            }
+
+            static hideAllErrors() {
+                document.querySelectorAll('.user-error').forEach(el => el.remove());
+            }
+
+            static handleVideoError(error, context = '') {
+                console.error('Video error:', error, context);
+                let message = 'Unable to load video. ';
+                if (error.message?.includes('404')) {
+                    message += 'Video file not found.';
+                } else if (error.message?.includes('network')) {
+                    message += 'Network connection issue.';
+                } else {
+                    message += 'Please try again later.';
+                }
+                this.showUserError(message);
+            }
+
+            static handleStorageError(error, operation) {
+                console.error('Storage error:', error, operation);
+                this.showUserError('Unable to save settings. Please check browser storage permissions.', 'warning');
+            }
+        }
+
         // Safe localStorage wrapper with error handling
         class SafeStorage {
             static getItem(key, defaultValue = null) {
@@ -4073,46 +4113,6 @@
             } catch (error) {
                 // Don't use ErrorHandler here to avoid circular dependency
                 return key;
-            }
-        }
-
-        // Enhanced Error Handling System
-        class ErrorHandler {
-            static showUserError(message, type = 'error') {
-                this.hideAllErrors();
-                const errorDiv = document.createElement('div');
-                errorDiv.className = `user-error user-error-${type}`;
-                errorDiv.innerHTML = `
-                    <div class="error-content">
-                        <span class="error-icon">${type === 'error' ? '⚠️' : type === 'success' ? '✅' : 'ℹ️'}</span>
-                        <span class="error-message">${message}</span>
-                        <button class="error-close" onclick="this.parentElement.parentElement.remove()">✕</button>
-                    </div>
-                `;
-                document.body.appendChild(errorDiv);
-                setTimeout(() => errorDiv.remove(), 5000);
-            }
-
-            static hideAllErrors() {
-                document.querySelectorAll('.user-error').forEach(el => el.remove());
-            }
-
-            static handleVideoError(error, context = '') {
-                console.error('Video error:', error, context);
-                let message = 'Unable to load video. ';
-                if (error.message?.includes('404')) {
-                    message += 'Video file not found.';
-                } else if (error.message?.includes('network')) {
-                    message += 'Network connection issue.';
-                } else {
-                    message += 'Please try again later.';
-                }
-                this.showUserError(message);
-            }
-
-            static handleStorageError(error, operation) {
-                console.error('Storage error:', error, operation);
-                this.showUserError('Unable to save settings. Please check browser storage permissions.', 'warning');
             }
         }
 
