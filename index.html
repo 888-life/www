@@ -4077,12 +4077,31 @@
                 }
             }
 
+            static getString(key, defaultValue = '') {
+                try {
+                    return localStorage.getItem(key) || defaultValue;
+                } catch (error) {
+                    ErrorHandler.handleStorageError(error, `getting string ${key}`);
+                    return defaultValue;
+                }
+            }
+
             static setItem(key, value) {
                 try {
                     localStorage.setItem(key, JSON.stringify(value));
                     return true;
                 } catch (error) {
                     ErrorHandler.handleStorageError(error, `setting ${key}`);
+                    return false;
+                }
+            }
+
+            static setString(key, value) {
+                try {
+                    localStorage.setItem(key, value);
+                    return true;
+                } catch (error) {
+                    ErrorHandler.handleStorageError(error, `setting string ${key}`);
                     return false;
                 }
             }
@@ -4099,7 +4118,7 @@
         }
 
         // Current language
-        let currentLanguage = SafeStorage.getItem('selectedLanguage') || 'en';
+        let currentLanguage = SafeStorage.getString('selectedLanguage', 'en');
 
         // Translation function
         function t(key) {
@@ -9651,16 +9670,16 @@
         // Language switching functionality
         document.getElementById('languageSelector').addEventListener('change', function(e) {
             currentLanguage = e.target.value;
-            SafeStorage.setItem('selectedLanguage', currentLanguage);
+            SafeStorage.setString('selectedLanguage', currentLanguage);
             updateLanguage();
         });
 
         // Accessibility Settings
         let accessibilitySettings = {
-            highContrast: SafeStorage.getItem('highContrast') === 'true',
-            largeText: SafeStorage.getItem('largeText') === 'true',
-            reducedMotion: SafeStorage.getItem('reducedMotion') === 'true',
-            screenReader: SafeStorage.getItem('screenReader') === 'true'
+            highContrast: SafeStorage.getString('highContrast') === 'true',
+            largeText: SafeStorage.getString('largeText') === 'true',
+            reducedMotion: SafeStorage.getString('reducedMotion') === 'true',
+            screenReader: SafeStorage.getString('screenReader') === 'true'
         };
 
         // Screen reader announcements
@@ -9716,7 +9735,7 @@
         // Toggle accessibility setting
         function toggleAccessibilitySetting(setting) {
             accessibilitySettings[setting] = !accessibilitySettings[setting];
-            SafeStorage.setItem(setting, accessibilitySettings[setting].toString());
+            SafeStorage.setString(setting, accessibilitySettings[setting].toString());
             applyAccessibilitySettings();
             updateAccessibilityToggles();
             
